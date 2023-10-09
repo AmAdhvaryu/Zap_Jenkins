@@ -3,7 +3,6 @@
 def targets   = ['juice-shop.herokuapp.com', 'www.hackthissite.org', 'tryhackme.com']
 def gitUrl    = "git@git.company.com:group/zap-jenkins.git"
 def gitBranch = "origin/main"
-def gitCredId = <jenkins-cred-id>
 
 // no changes below here
 // ------------------------------------------------------------
@@ -22,32 +21,7 @@ pipeline {
         string(name: 'DELAY_IN_MS', defaultValue: '0', description: 'The delay in milliseconds between each request while scanning. Setting this to a non zero value will increase the time an active scan takes, but will put less of a strain on the target host.')
         string(name: 'MAX_SCAN_DURATION_IN_MINS', defaultValue: '300', description: 'The maximum time that the whole scan can run for in minutes. Zero means no limit. This can be used to ensure that a scan is completed around a set time.' )
 	}
-    triggers {
-        parameterizedCron('''H 23 * * 2,4,6 %ZAP_TARGET=juice-shop.herokuapp.com
-H 23 * * 1,3,5 %ZAP_TARGET=www.hackthissite.org;ZAP_USE_CONTEXT_FILE=false;DELAY_IN_MS=50
-H 21 * * 1,3,5 %ZAP_TARGET=tryhackme.com;ZAP_ALERT_LVL=Medium;MAX_SCAN_DURATION_IN_MINS=60
-''')
-    }
 	stages {
-		stage('checkout'){
-			steps{
-				script {
-                    currentBuild.displayName = env.BUILD_NUMBER + "_" + params.ZAP_TARGET + "--" + params.ZAP_ALERT_LVL
-					cleanWs()     
-				}
-                // checkout
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[
-                        name: gitBranch
-                    ]],
-                    userRemoteConfigs: [[
-                        credentialsId: gitCredId ,
-                        url: gitUrl
-                    ]]
-                ])
-			}
-		}
 		stage('scanning'){
 			steps{
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
