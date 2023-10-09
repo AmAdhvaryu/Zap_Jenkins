@@ -30,21 +30,45 @@ pipeline {
                         mkdir -p results/
 
                         # starting container
-                        docker run --name zap_${env.BUILD_NUMBER} -d owasp/zap2docker-stable zap.sh -daemon \
-                        -port 2375 \
-                        -host 127.0.0.1 \
-                        -config api.disablekey=true \
-                        -config scanner.attackOnStart=true \
-                        -config scanner.delayInMs=${params.DELAY_IN_MS} \
-                        -config scanner.maxScanDurationInMins=${params.MAX_SCAN_DURATION_IN_MINS} \
-                        -config scanner.threadPerHost=2 \
-                        -config view.mode=attack \
-                        -config connection.dnsTtlSuccessfulQueries=-1 \
-                        -config api.addrs.addr.name=.* \
-                        -config api.addrs.addr.regex=true \
-                        -addoninstall ascanrulesBeta \
-                        -addoninstall pscanrulesBeta \
-                        -addoninstall alertReport
+                        // docker run --name zap_${env.BUILD_NUMBER} -d owasp/zap2docker-stable zap.sh -daemon \
+                        // -port 2375 \
+                        // -host 127.0.0.1 \
+                        // -config api.disablekey=true \
+                        // -config scanner.attackOnStart=true \
+                        // -config scanner.delayInMs=${params.DELAY_IN_MS} \
+                        // -config scanner.maxScanDurationInMins=${params.MAX_SCAN_DURATION_IN_MINS} \
+                        // -config scanner.threadPerHost=2 \
+                        // -config view.mode=attack \
+                        // -config connection.dnsTtlSuccessfulQueries=-1 \
+                        // -config api.addrs.addr.name=.* \
+                        // -config api.addrs.addr.regex=true \
+                        // -addoninstall ascanrulesBeta \
+                        // -addoninstall pscanrulesBeta \
+                        // -addoninstall alertReport
+		  echo "Pulling up last stable OWASP ZAP container --> Start"
+                    sh 'docker pull owasp/zap2docker-stable:latest'
+                    echo "Pulling up last VMS container --> End"
+
+                    echo "Starting ZAP container and expose the API port --> Start"
+                    // sh """docker run --rm -d --name owasp -p 8171:8171 -v $PWD:$PWD -w $PWD owasp/zap2docker-stable"""
+                    
+                    sh """docker run -d --name owasp -p 8171:8171 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 8171 -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
+                    
+                    // Wait for a brief moment to allow the container to fully start
+                    sleep(time: 60, unit: 'SECONDS')
+                    
+                    echo "Printing container logs:"
+                    sh '''
+                    docker logs owasp
+                    '''
+                    
+                    sh '''
+                    docker images
+                    '''
+                    
+                    sh '''
+                    docker ps
+                    '''
 
                         # copy context file into container if exists
                         if [[ -f "./contexts/\${ZAP_TARGET}.context" ]]; then
