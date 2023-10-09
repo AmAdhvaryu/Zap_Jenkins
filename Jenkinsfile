@@ -10,12 +10,14 @@ def gitBranch = "origin/main"
 pipeline {
     agent any
 	parameters {
+		    echo "<--Parameter Initialization-->"
 		choice(name: 'ZAP_TARGET', choices: targets, description:'Website to Scan')
 		choice(name: 'ZAP_ALERT_LVL', choices: ['High', 'Medium', 'Low', 'Informational'], description: 'Level, when to alert, see Zap documentation, default High')
         booleanParam(name: 'ZAP_USE_CONTEXT_FILE', defaultValue: true, description: '')
         string(name: 'DELAY_IN_MS', defaultValue: '0', description: 'The delay in milliseconds between each request while scanning. Setting this to a non zero value will increase the time an active scan takes, but will put less of a strain on the target host.')
         string(name: 'MAX_SCAN_DURATION_IN_MINS', defaultValue: '300', description: 'The maximum time that the whole scan can run for in minutes. Zero means no limit. This can be used to ensure that a scan is completed around a set time.' )
 	}
+	    echo "<--Started Scaaning-->"
 	stages {
 		stage('scanning'){
 			steps{
@@ -28,49 +30,24 @@ pipeline {
                         
                         # ensure report folder
                         mkdir -p results/
-
+                            echo "<--Started docker container-->"
                         # starting container
-                        // docker run --name zap_${env.BUILD_NUMBER} -d owasp/zap2docker-stable zap.sh -daemon \
-                        // -port 2375 \
-                        // -host 127.0.0.1 \
-                        // -config api.disablekey=true \
-                        // -config scanner.attackOnStart=true \
-                        // -config scanner.delayInMs=${params.DELAY_IN_MS} \
-                        // -config scanner.maxScanDurationInMins=${params.MAX_SCAN_DURATION_IN_MINS} \
-                        // -config scanner.threadPerHost=2 \
-                        // -config view.mode=attack \
-                        // -config connection.dnsTtlSuccessfulQueries=-1 \
-                        // -config api.addrs.addr.name=.* \
-                        // -config api.addrs.addr.regex=true \
-                        // -addoninstall ascanrulesBeta \
-                        // -addoninstall pscanrulesBeta \
-                        // -addoninstall alertReport
-		  echo "Pulling up last stable OWASP ZAP container --> Start"
-                    sh 'docker pull owasp/zap2docker-stable:latest'
-                    echo "Pulling up last VMS container --> End"
-
-                    echo "Starting ZAP container and expose the API port --> Start"
-                    // sh """docker run --rm -d --name owasp -p 8171:8171 -v $PWD:$PWD -w $PWD owasp/zap2docker-stable"""
-                    
-                    sh """docker run -d --name owasp -p 8171:8171 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 8171 -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
-                    
-                    // Wait for a brief moment to allow the container to fully start
-                    sleep(time: 60, unit: 'SECONDS')
-                    
-                    echo "Printing container logs:"
-                    sh '''
-                    docker logs owasp
-                    '''
-                    
-                    sh '''
-                    docker images
-                    '''
-                    
-                    sh '''
-                    docker ps
-                    '''
-
-                        # copy context file into container if exists
+                        docker run --name zap_${env.BUILD_NUMBER} -d owasp/zap2docker-stable zap.sh -daemon \
+                        -port 2375 \
+                        -host 127.0.0.1 \
+                        -config api.disablekey=true \
+                        -config scanner.attackOnStart=true \
+                        -config scanner.delayInMs=${params.DELAY_IN_MS} \
+                        -config scanner.maxScanDurationInMins=${params.MAX_SCAN_DURATION_IN_MINS} \
+                        -config scanner.threadPerHost=2 \
+                        -config view.mode=attack \
+                        -config connection.dnsTtlSuccessfulQueries=-1 \
+                        -config api.addrs.addr.name=.* \
+                        -config api.addrs.addr.regex=true \
+                        -addoninstall ascanrulesBeta \
+                        -addoninstall pscanrulesBeta \
+                        -addoninstall alertReport
+	# copy context file into container if exists
                         if [[ -f "./contexts/\${ZAP_TARGET}.context" ]]; then
                             echo "context file found in contexts/\${ZAP_TARGET}.context - Copying into container"
                             docker cp ./contexts/\${ZAP_TARGET}.context zap_${env.BUILD_NUMBER}:/home/zap/$ZAP_TARGET
