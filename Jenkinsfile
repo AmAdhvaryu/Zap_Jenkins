@@ -8,7 +8,6 @@ def gitBranch = "origin/main"
 // ------------------------------------------------------------
 
 pipeline {
-   echo "Parameter Initialization"
     agent any
 	parameters {
 		choice(name: 'ZAP_TARGET', choices: targets, description:'Website to Scan')
@@ -19,10 +18,10 @@ pipeline {
 	}
 	   
 	stages {
-	        echo "Started Scaaning"
 		stage('scanning'){
 			steps{
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+			 echo "Started Scaaning"
                     sh("""
                         #!/bin/bash -eux
                         ZAP_TARGET=${params.ZAP_TARGET}                        
