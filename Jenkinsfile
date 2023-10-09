@@ -9,11 +9,6 @@ def gitBranch = "origin/main"
 
 pipeline {
     agent { node { label 'docker' } }
-    options {
-		timestamps()
-		buildDiscarder(logRotator(numToKeepStr: '100'))
-		ansiColor('xterm')
-	}
 	parameters {
 		choice(name: 'ZAP_TARGET', choices: targets, description:'Website to Scan')
 		choice(name: 'ZAP_ALERT_LVL', choices: ['High', 'Medium', 'Low', 'Informational'], description: 'Level, when to alert, see Zap documentation, default High')
