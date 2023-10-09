@@ -9,7 +9,7 @@ def gitBranch = "origin/main"
 
 pipeline {
     agent any
-	 echo "Parameter Initialization"
+        echo "Parameter Initialization"
 	parameters {
 		choice(name: 'ZAP_TARGET', choices: targets, description:'Website to Scan')
 		choice(name: 'ZAP_ALERT_LVL', choices: ['High', 'Medium', 'Low', 'Informational'], description: 'Level, when to alert, see Zap documentation, default High')
@@ -19,7 +19,7 @@ pipeline {
 	}
 	   
 	stages {
-		 echo "Started Scaaning"
+	        echo "Started Scaaning"
 		stage('scanning'){
 			steps{
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
@@ -31,7 +31,7 @@ pipeline {
                         
                         # ensure report folder
                         mkdir -p results/
-                            echo "<--Started docker container-->"
+		        echo "Started docker container"
                         # starting container
                         docker run --name zap_${env.BUILD_NUMBER} -d owasp/zap2docker-stable zap.sh -daemon \
                         -port 2375 \
