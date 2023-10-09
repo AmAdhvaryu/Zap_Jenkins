@@ -1,5 +1,5 @@
 // Define the target URLs and other parameters
-def targets = ['default']
+def targets = ['https://qa2.criticalmention.com']
 def gitUrl = "https://github.com/AmAdhvaryu/Zap_Jenkins.git"
 def gitBranch = "origin/main"
 
@@ -45,7 +45,7 @@ pipeline {
                     // Copy context files into the container
                     if (params.ZAP_USE_CONTEXT_FILE) {
                         echo "Using ZAP context file for authentication"
-                        def contextFileName = "${params.ZAP_TARGET}.context"
+                        def contextFileName = "default.context"
                         def defaultContextFileName = "default.context"
                         
                         // Check if the context file exists in the repository
