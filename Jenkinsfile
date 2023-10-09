@@ -1,7 +1,7 @@
 // please adjust the next variables to your needs
 
-def targets   = ['juice-shop.herokuapp.com', 'www.hackthissite.org', 'tryhackme.com']
-def gitUrl    = "git@git.company.com:group/zap-jenkins.git"
+def targets   = ['https://qa2.criticalmention.com']
+def gitUrl    = "https://github.com/AmAdhvaryu/Zap_Jenkins.git"
 def gitBranch = "origin/main"
 
 // no changes below here
