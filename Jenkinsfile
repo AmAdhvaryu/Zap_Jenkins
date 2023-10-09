@@ -69,7 +69,7 @@ pipeline {
                     
                     // Wait for ZAP to be ready
                     sh """
-                        docker exec ${zapContainerName} zap-cli -v -p ${zapApiPort} status -t 120
+                        docker-compose exec zap ${zapContainerName} zap-cli -v -p ${zapApiPort} status -t 120
                     """
                     
                     // Perform the ZAP scan
