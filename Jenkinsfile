@@ -65,11 +65,11 @@ def startZapContainer() {
 def copyContextFiles(zapContainerName) {
     if (params.ZAP_USE_CONTEXT_FILE) {
         echo "Using ZAP context file for authentication"
-        def contextFileName = "default.context"
-        def defaultContextFileName = "default.context"
+        // def contextFileName = "default.context"
+        // def defaultContextFileName = "default.context"
         
-        if (fileExists("./contexts/${contextFileName}")) {
-            sh "docker cp ./contexts/${contextFileName} ${zapContainerName}:/home/zap/${contextFileName}"
+        if (fileExists("./contexts/default.context")) {
+            sh "docker cp ./contexts/default.context owasp:/home/zap/default.context"
         } else {
             echo "Context file '${contextFileName}' not found in ./contexts. Using default context."
             params.ZAP_USE_CONTEXT_FILE = false
@@ -103,8 +103,8 @@ pipeline {
         stage('Scanning') {
             steps {
                 script {
-                    def zapContainerName = startZapContainer()
-                    copyContextFiles(zapContainerName)
+                   // def zapContainerName = startZapContainer()
+                    copyContextFiles(owasp)
                     
                     // ... (rest of the scanning stage remains the same)
                 }
@@ -131,7 +131,7 @@ pipeline {
         always {
             echo "Cleaning up ZAP Docker container"
             sh """
-                docker container rm -f zap_29 || true
+    
                 docker container rm -f owasp || true
             """
         }
