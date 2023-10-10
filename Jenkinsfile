@@ -41,20 +41,8 @@ def startZapContainer() {
 def copyContextFiles(owasp) {
     if (params.ZAP_USE_CONTEXT_FILE) {
         echo "Using ZAP context file for authentication"
-        
-        if (fileExists("./contexts/default.context")) {
-            sh "docker cp ./contexts/default.context owasp:/home/zap/default.context"
-        } else {
-            echo "Context file 'default. context' not found in ./contexts. Using default context."
-            params.ZAP_USE_CONTEXT_FILE = false
-        }
-        
-        sh "docker cp ./contexts/default.context owasp:/home/zap/${defaultContextFileName}"
-    } else {
-        echo "Running scan with default context."
-        params.ZAP_USE_CONTEXT_FILE = false
-    }
-}
+        sh "docker cp ./contexts/default.context owasp:/home/zap/default.context"
+       }
 
 pipeline {
     agent any
@@ -79,8 +67,35 @@ pipeline {
                 script {
                     def zapContainerName = startZapContainer()
                     copyContextFiles(owasp)
-                    
-                    // ... (rest of the scanning stage remains the same)
+                     if (params.ZAP_USE_CONTEXT_FILE == "true") {
+                docker exec owasp zap-cli -v -p 2375 context import /home/zap/$ZAP_TARGET
+                docker exec owasp zap-cli -v -p 2375 context info $ZAP_TARGET
+            } else {
+                docker exec owasp zap-cli -v -p 2375 context import /home/zap/default
+                docker exec owasp zap-cli -v -p 2375 context info default
+            }
+
+            docker exec owasp zap-cli -v -p 2375 open-url "https://$ZAP_TARGET"
+            docker exec owasp zap-cli -v -p 2375 spider -c "$ZAP_TARGET" "https://$ZAP_TARGET"
+            docker exec owasp zap-cli -v -p 2375 active-scan -c "$ZAP_TARGET" --recursive "https://$ZAP_TARGET"
+            
+            # Generate report inside container
+            docker exec owasp zap-cli -p 2375 report -o /home/zap/report.html -f html
+            docker cp owasp:/home/zap/report.html ./results/
+            docker exec owasp zap-cli -p 2375 report -o /home/zap/report.xml -f xml
+            docker cp owasp:/home/zap/report.xml ./results/
+            
+            # Fetch alerts JSON
+            docker exec owasp zap-cli -p 2375 alerts --alert-level "Informational" -f json > ./results/report.json || true
+            
+            # Check for alerts
+            ALERT_CNT=$(docker exec owasp zap-cli -p 2375 alerts --alert-level "$ZAP_ALERT_LVL" -f json | jq length)
+            
+            # Mark Jenkins job as unstable if alerts were detected
+            if [[ "$ALERT_CNT" -gt 0 ]]; then
+                echo "Vulnerabilities detected, Lvl=$ZAP_ALERT_LVL Alert count=$ALERT_CNT"
+                echo "Job is unstable..."
+                exit 1
                 }
             }
         }
