@@ -38,7 +38,7 @@ def startZapContainer() {
 }
 
 // Define a function for copying context files into the container
-def copyContextFiles(zapContainerName) {
+def copyContextFiles(owasp) {
     if (params.ZAP_USE_CONTEXT_FILE) {
         echo "Using ZAP context file for authentication"
         
