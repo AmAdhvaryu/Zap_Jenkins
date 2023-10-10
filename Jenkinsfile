@@ -68,7 +68,7 @@ pipeline {
                     def zapContainerName = startZapContainer()
                     copyContextFiles(owasp)
                      if (params.ZAP_USE_CONTEXT_FILE == "true") {
-                docker exec owasp zap-cli -v -p 2375 context import /home/zap/$ZAP_TARGET
+               // docker exec owasp zap-cli -v -p 2375 context import /home/zap/$ZAP_TARGET
                 docker exec owasp zap-cli -v -p 2375 context info $ZAP_TARGET
             } else {
                 docker exec owasp zap-cli -v -p 2375 context import /home/zap/default
