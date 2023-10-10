@@ -56,18 +56,18 @@ pipeline {
                   script{
                         if (params.ZAP_USE_CONTEXT_FILE) {
                         echo "Using ZAP context file for authentication"
-        
+
                         if (fileExists("./contexts/default.context")) {
                         sh "docker cp ./contexts/default.context owasp:/home/zap/default.context"
                         } else {
                         echo "Context file owasp not found in ./contexts. Using default context."
                         params.ZAP_USE_CONTEXT_FILE = false
-                        sh "docker cp ./contexts/default.context owasp:/home/zap/default.context"
-                        } else {
-                        echo "Running scan with default context."
-                        params.ZAP_USE_CONTEXT_FILE = false
-                        }
-                        }
+                       sh "docker cp ./contexts/default.context owasp:/home/zap/default.context"
+               }
+            } else {
+                       echo "Running scan with default context."
+                       params.ZAP_USE_CONTEXT_FILE = false
+}
                         
                          # wait for zap to be ready
                         docker exec owasp zap-cli -v -p 2375 status -t 120
