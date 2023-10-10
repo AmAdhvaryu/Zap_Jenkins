@@ -23,7 +23,7 @@ def startZapContainer() {
     
     //def dockerCommand = """
     
-                    sh """docker run -d --name ${zapContainerName} -p ${zapApiPort}:${zapApiPort} -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port ${zapApiPort} -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
+                    sh """docker run -d --name zap_29 -p 2375:2375 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
                     
                     // Wait for a brief moment to allow the container to fully start
                     sleep(time: 60, unit: 'SECONDS')
