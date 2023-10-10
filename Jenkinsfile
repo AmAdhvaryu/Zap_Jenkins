@@ -17,6 +17,23 @@ pipeline {
     }
 
     stages {
+        stage('Install or Upgrade zapcli') {
+            steps {
+                script {
+                    // Use the pip command to install or upgrade zapcli
+                    def pip install command = 'pip install -U zapcli'
+
+                    // Execute the command
+                    def exit code = sh(script: pip install command, returnStatus: true)
+
+                    if (exit code == 0) {
+                        echo 'zapcli installation or upgrade successful.'
+                    } else {
+                        error 'Failed to install or upgrade zapcli.'
+                    }
+                }
+            }
+        }
         stage('Scanning') {
             steps {
                 script {
