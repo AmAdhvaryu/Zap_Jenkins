@@ -20,7 +20,6 @@ pipeline {
         stage('Scanning') {
             steps {
                 script {
-                    pip install -U zapcli
                     def zapContainerName = "zap_${env.BUILD_NUMBER}"
                     echo "Starting ZAP Docker container: ${zapContainerName}"
                     
