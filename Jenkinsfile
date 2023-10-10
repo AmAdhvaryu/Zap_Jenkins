@@ -74,8 +74,8 @@ pipeline {
                }
             }
             stage('Scanning') {
-    steps {
-        script {
+              steps {
+                 script {
             if (params.ZAP_USE_CONTEXT_FILE == "true") {
                 docker exec owasp zap-cli -v -p 2375 context import /home/zap/$ZAP_TARGET
                 docker exec owasp zap-cli -v -p 2375 context info $ZAP_TARGET
@@ -108,7 +108,6 @@ pipeline {
             }
         }
     }
-}
 
 stage('publish'){
                 steps {
