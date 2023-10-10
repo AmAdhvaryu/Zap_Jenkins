@@ -43,6 +43,7 @@ def copyContextFiles(owasp) {
         echo "Using ZAP context file for authentication"
         sh "docker cp ./contexts/default.context owasp:/home/zap/default.context"
        }
+}
 
 pipeline {
     agent any
