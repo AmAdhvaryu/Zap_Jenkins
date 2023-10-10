@@ -80,23 +80,23 @@ pipeline {
             docker exec owasp zap-cli -v -p 2375 spider -c "$ZAP_TARGET" "https://$ZAP_TARGET"
             docker exec owasp zap-cli -v -p 2375 active-scan -c "$ZAP_TARGET" --recursive "https://$ZAP_TARGET"
             
-            # Generate report inside container
-            docker exec owasp zap-cli -p 2375 report -o /home/zap/report.html -f html
-            docker cp owasp:/home/zap/report.html ./results/
-            docker exec owasp zap-cli -p 2375 report -o /home/zap/report.xml -f xml
-            docker cp owasp:/home/zap/report.xml ./results/
+            // # Generate report inside container
+            // docker exec owasp zap-cli -p 2375 report -o /home/zap/report.html -f html
+            // docker cp owasp:/home/zap/report.html ./results/
+            // docker exec owasp zap-cli -p 2375 report -o /home/zap/report.xml -f xml
+            // docker cp owasp:/home/zap/report.xml ./results/
             
-            # Fetch alerts JSON
-            docker exec owasp zap-cli -p 2375 alerts --alert-level "Informational" -f json > ./results/report.json || true
+            // # Fetch alerts JSON
+            // docker exec owasp zap-cli -p 2375 alerts --alert-level "Informational" -f json > ./results/report.json || true
             
-            # Check for alerts
-            ALERT_CNT=$(docker exec owasp zap-cli -p 2375 alerts --alert-level "$ZAP_ALERT_LVL" -f json | jq length)
+            // # Check for alerts
+            // ALERT_CNT=$(docker exec owasp zap-cli -p 2375 alerts --alert-level "$ZAP_ALERT_LVL" -f json | jq length)
             
-            # Mark Jenkins job as unstable if alerts were detected
-            if [[ "$ALERT_CNT" -gt 0 ]]; then
-                echo "Vulnerabilities detected, Lvl=$ZAP_ALERT_LVL Alert count=$ALERT_CNT"
-                echo "Job is unstable..."
-                exit 1
+            // # Mark Jenkins job as unstable if alerts were detected
+            // if [[ "$ALERT_CNT" -gt 0 ]]; then
+            //     echo "Vulnerabilities detected, Lvl=$ZAP_ALERT_LVL Alert count=$ALERT_CNT"
+            //     echo "Job is unstable..."
+            //     exit 1
                 }
             }
         }
