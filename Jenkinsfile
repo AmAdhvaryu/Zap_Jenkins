@@ -21,26 +21,44 @@ def startZapContainer() {
     def zapContainerName = "zap_${env.BUILD_NUMBER}"
     echo "Starting ZAP Docker container: ${zapContainerName}"
     
-    def dockerCommand = """
-        docker run --name ${zapContainerName} -d owasp/zap2docker-stable zap.sh -daemon \
-        -port ${zapApiPort} \
-        -host 0.0.0.0 \
-        -config api.disablekey=true \
-        -config scanner.attackOnStart=true \
-        -config scanner.delayInMs=${params.DELAY_IN_MS} \
-        -config scanner.maxScanDurationInMins=${params.MAX_SCAN_DURATION_IN_MINS} \
-        -config scanner.threadPerHost=2 \
-        -config view.mode=attack \
-        -config connection.dnsTtlSuccessfulQueries=-1 \
-        -config api.addrs.addr.name=.* \
-        -config api.addrs.addr.regex=true \
-        -addoninstall ascanrulesBeta \
-        -addoninstall pscanrulesBeta \
-        -addoninstall alertReport
-    """
+    //def dockerCommand = """
     
-    sh dockerCommand
-    return zapContainerName
+                    sh """docker run -d --name ${zapContainerName} -p ${zapApiPort}:${zapApiPort} -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port ${zapApiPort} -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
+                    
+                    // Wait for a brief moment to allow the container to fully start
+                    sleep(time: 60, unit: 'SECONDS')
+                    
+                    echo "Printing container logs:"
+                    sh '''
+                    docker logs owasp
+                    '''
+                    
+                    sh '''
+                    docker images
+                    '''
+                    
+                    sh '''
+                    docker ps
+                    '''
+        // docker run --name ${zapContainerName} -d owasp/zap2docker-stable zap.sh -daemon \
+        // -port ${zapApiPort} \
+        // -host 0.0.0.0 \
+        // -config api.disablekey=true \
+        // -config scanner.attackOnStart=true \
+        // -config scanner.delayInMs=${params.DELAY_IN_MS} \
+        // -config scanner.maxScanDurationInMins=${params.MAX_SCAN_DURATION_IN_MINS} \
+        // -config scanner.threadPerHost=2 \
+        // -config view.mode=attack \
+        // -config connection.dnsTtlSuccessfulQueries=-1 \
+        // -config api.addrs.addr.name=.* \
+        // -config api.addrs.addr.regex=true \
+        // -addoninstall ascanrulesBeta \
+        // -addoninstall pscanrulesBeta \
+        // -addoninstall alertReport
+    // """
+    
+    // sh dockerCommand
+    // return zapContainerName
 }
 
 // Define a function for copying context files into the container
