@@ -67,9 +67,8 @@ pipeline {
             } else {
                        echo "Running scan with default context."
                        params.ZAP_USE_CONTEXT_FILE = false
-}
-                        
-                         # wait for zap to be ready
+			}
+	
                         docker exec owasp zap-cli -v -p 2375 status -t 120
                   }
                }
