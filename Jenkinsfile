@@ -18,12 +18,12 @@ def installOrUpgradeZapcli() {
 
 // Define a function for starting the ZAP Docker container
 def startZapContainer() {
-    def zapContainerName = "zap_${env.BUILD_NUMBER}"
+    def zapContainerName = "owasp"
     echo "Starting ZAP Docker container: ${zapContainerName}"
     
     //def dockerCommand = """
     
-                    sh """docker run -d --name zap_29 -p 2375:2375 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
+                    sh """docker run -d --name owasp -p 2375:2375 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
                     
                     // Wait for a brief moment to allow the container to fully start
                     sleep(time: 60, unit: 'SECONDS')
@@ -131,7 +131,8 @@ pipeline {
         always {
             echo "Cleaning up ZAP Docker container"
             sh """
-                docker container rm -f ${zapContainerName} || true
+                docker container rm -f zap_29 || true
+                docker container rm -f owasp || true
             """
         }
     }
