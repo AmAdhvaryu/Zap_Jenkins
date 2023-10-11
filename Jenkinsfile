@@ -76,7 +76,6 @@ pipeline {
 			echo "The context file is copied"
 		        docker exec -it owasp sh
                         ls /zap/wrk/
-			docker exec owasp ls /zap/wrk/context.default
 			    }
 			}
 		}
