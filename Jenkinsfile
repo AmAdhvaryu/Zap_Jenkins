@@ -81,7 +81,8 @@ pipeline {
 		    steps{
 			    script {
 		//docker exec owasp zap-cli -v -p 2375 context import contexts/default.context
-                docker exec owasp zap-cli -v -p 2375 context info $ZAP_TARGET
+                //docker exec owasp zap-cli -v -p 2375 context info $ZAP_TARGET
+				    echo "scanning the url"
                 docker exec owasp zap-cli -v -p 2375 open-url "https://$ZAP_TARGET"
                 docker exec owasp zap-cli -v -p 2375 spider -c "$ZAP_TARGET" "https://$ZAP_TARGET"
                 docker exec owasp zap-cli -v -p 2375 active-scan -c "$ZAP_TARGET" --recursive "https://$ZAP_TARGET"
