@@ -15,36 +15,6 @@ def installOrUpgradeZapcli() {
     }
 }
 
-// Define a function for starting the ZAP Docker container
-def startZapContainer() {
-    echo "Starting ZAP Docker container: owasp"
-     sh """docker run -d --name owasp -p 2375:2375 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
-                    
-                          // Wait for a brief moment to allow the container to fully start
-                          sleep(time: 30, unit: 'SECONDS')
-                    
-                          echo "Printing container logs:"
-                          sh '''
-                          docker logs owasp
-                          '''
-                    
-                          sh '''
-                          docker images
-                          '''
-                    
-                          sh '''
-                          docker ps
-                          '''
-}
-
-// Define a function for copying context files into the container
-def copyContextFiles(owasp) {
-    if (params.ZAP_USE_CONTEXT_FILE) {
-        echo "Using ZAP context file for authentication"
-        sh "docker cp ./contexts/default.context owasp:/home/zap/default.context"
-       }
-}
-
 pipeline {
     agent any
     parameters {
@@ -63,24 +33,49 @@ pipeline {
                 }
             }
         }
-        stage('Scanning') {
+		stage('Running Docker Container'){
+		    steps {
+			    script {
+				 echo "Starting ZAP Docker container: owasp"
+				 sh """docker run -d --name owasp -p 2375:2375 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
+				 // Wait for a brief moment to allow the container to fully start
+                          sleep(time: 30, unit: 'SECONDS')
+                    
+                          echo "Printing container logs:"
+                          sh '''
+                          docker logs owasp
+                          '''
+                    
+                          sh '''
+                          docker images
+                          '''
+                    
+                          sh '''
+                          docker ps
+                          '''
+		
+				}
+			}
+		}
+        stage('Getting Zap file'){
             steps {
                 script {
-                    def zapContainerName = startZapContainer()
-                    copyContextFiles(owasp)
-                     if (params.ZAP_USE_CONTEXT_FILE == "true") {
-               // docker exec owasp zap-cli -v -p 2375 context import /home/zap/$ZAP_TARGET
+				
+				  echo "Using ZAP context file for authentication"
+                  sh "docker cp ./contexts/default.context owasp:/home/zap/default.context"
+			    }
+			}
+		}
+		stage('scanning'){
+		    steps{
+			    script {
+                    echo "Started with scenning process"
+				docker exec owasp zap-cli -v -p 2375 context import /home/zap/$ZAP_TARGET
                 docker exec owasp zap-cli -v -p 2375 context info $ZAP_TARGET
-            } else {
-                //docker exec owasp zap-cli -v -p 2375 context import /home/zap/default
-                //docker exec owasp zap-cli -v -p 2375 context info default
-            }
-
-            docker exec owasp zap-cli -v -p 2375 open-url "https://$ZAP_TARGET"
-            docker exec owasp zap-cli -v -p 2375 spider -c "$ZAP_TARGET" "https://$ZAP_TARGET"
-            docker exec owasp zap-cli -v -p 2375 active-scan -c "$ZAP_TARGET" --recursive "https://$ZAP_TARGET"
-            
-            // # Generate report inside container
+                docker exec owasp zap-cli -v -p 2375 open-url "https://$ZAP_TARGET"
+                docker exec owasp zap-cli -v -p 2375 spider -c "$ZAP_TARGET" "https://$ZAP_TARGET"
+                docker exec owasp zap-cli -v -p 2375 active-scan -c "$ZAP_TARGET" --recursive "https://$ZAP_TARGET"
+				// # Generate report inside container
             // docker exec owasp zap-cli -p 2375 report -o /home/zap/report.html -f html
             // docker cp owasp:/home/zap/report.html ./results/
             // docker exec owasp zap-cli -p 2375 report -o /home/zap/report.xml -f xml
@@ -97,11 +92,10 @@ pipeline {
             //     echo "Vulnerabilities detected, Lvl=$ZAP_ALERT_LVL Alert count=$ALERT_CNT"
             //     echo "Job is unstable..."
             //     exit 1
-                }
-            }
-        }
-
-        stage('Publish') {
+			   }
+		   }
+		}
+         stage('Publish') {
             steps {
                 echo "Publishing ZAP scan reports"
                 publishHTML([
@@ -125,4 +119,11 @@ pipeline {
             """
         }
     }
-}
+		
+				
+				 
+				 
+				
+			    
+     
+      
