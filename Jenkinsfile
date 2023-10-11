@@ -33,15 +33,6 @@ pipeline {
                 }
             }
         }
-  stage('Prepare wrk directory') {
-             steps {
-                 script {
-                     sh '''
-                     docker exec owasp mkdir /zap/wrk
-                     '''
-                 }
-             }
-        }
 	stage('Running Docker Container'){
 		    steps {
 			    script {
@@ -66,6 +57,15 @@ pipeline {
 				}
 			}
 		}
+	     stage('Prepare wrk directory') {
+             steps {
+                 script {
+                     sh '''
+                     docker exec owasp mkdir /zap/wrk
+                     '''
+                 }
+             }
+        }
         stage('Getting Zap file'){
             steps {
                 script {
