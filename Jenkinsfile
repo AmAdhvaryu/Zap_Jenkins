@@ -13,6 +13,9 @@ def installOrUpgradeZapcli() {
     } else {
         error 'Failed to install or upgrade zapcli.'
     }
+def zapCliPath = sh(script: 'which zap-cli', returnStatus: true).trim()
+echo "Full path to zap-cli: $zapCliPath"
+
 }
 
 pipeline {
