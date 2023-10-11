@@ -62,7 +62,7 @@ pipeline {
                 script {
 				
 				  echo "Using ZAP context file for authentication"
-                  sh """ docker cp ./contexts/default.context owasp:/home/zap/default """
+                  sh """ docker cp ./contexts/default.context owasp:/home/zap/context/ """
 			    }
 			}
 		}
