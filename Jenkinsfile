@@ -62,14 +62,14 @@ pipeline {
                 script {
 				
 				  echo "Using ZAP context file for authentication"
-                  sh "docker cp ./contexts/default.context owasp:./contexts/default.context"
+                  sh "docker cp default.context owasp:./contexts/default.context"
 			    }
 			}
 		}
 		stage('scanning'){
 		    steps{
 			    script {
-		docker exec owasp zap-cli -v -p 2375 context import ./contexts/default.context 
+		//docker exec owasp zap-cli -v -p 2375 context import contexts/default.context
                 docker exec owasp zap-cli -v -p 2375 context info $ZAP_TARGET
                 docker exec owasp zap-cli -v -p 2375 open-url "https://$ZAP_TARGET"
                 docker exec owasp zap-cli -v -p 2375 spider -c "$ZAP_TARGET" "https://$ZAP_TARGET"
