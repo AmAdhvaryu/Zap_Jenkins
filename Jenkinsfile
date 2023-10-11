@@ -33,7 +33,16 @@ pipeline {
                 }
             }
         }
-		stage('Running Docker Container'){
+  stage('Prepare wrk directory') {
+             steps {
+                 script {
+                     sh '''
+                     docker exec owasp mkdir /zap/wrk
+                     '''
+                 }
+             }
+        }
+	stage('Running Docker Container'){
 		    steps {
 			    script {
 				 echo "Starting ZAP Docker container: owasp"
@@ -62,7 +71,7 @@ pipeline {
                 script {
 				
 				  echo "Using ZAP context file for authentication"
-                  sh """ docker cp ./contexts/default.context owasp:/zap/context/context.conf/ """
+                  sh """ docker cp ./contexts/default.context owasp:/zap/wrk/context.default """
 			    }
 			}
 		}
