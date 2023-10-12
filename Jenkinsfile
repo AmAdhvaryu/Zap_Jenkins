@@ -68,6 +68,12 @@ pipeline {
                  }
              }
         }
+        stage('Install Zap-cli'){
+		steps{
+			script{
+				sh 'docker exec owasp pip install zapcli'
+				docker exec -it container_name /bin/sh
+				which zap-cli 
         stage('Getting Zap file'){
             steps {
                 script {
