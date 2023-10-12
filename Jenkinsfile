@@ -38,7 +38,7 @@ pipeline {
 		    steps {
 			    script {
 				 echo "Starting ZAP Docker container: owasp"
-				 sh """docker run -d --name owasp -p 2375:2375 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
+				 sh """docker run -d --name owasp -p 8171:8171 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
 				 // Wait for a brief moment to allow the container to fully start
                           sleep(time: 30, unit: 'SECONDS')
                     
@@ -94,13 +94,13 @@ pipeline {
 		stage('scanning'){
 		    steps{
 			    script {
-		sh """ docker exec owasp /home/zap/.local/bin/zap-cli -v -p 2375 context import /zap/wrk/default """	
+		sh """ docker exec owasp /home/zap/.local/bin/zap-cli -v -p 8171 context import /zap/wrk/default """	
 				     echo "The context file is accessable"
-		sh """ docker exec owasp zap-cli -v -p 2375 context info https://qa2.criticalmention.com """
+		sh """ docker exec owasp zap-cli -v -p 8171 context info https://qa2.criticalmention.com """
 				    echo "scanning the url"
-              sh ''' docker exec owasp zap-cli -v -p 2375 open-url "https://${ZAP_TARGET}" '''
-              sh ''' docker exec owasp zap-cli -v -p 2375 spider -c "${ZAP_TARGET}" "https://${ZAP_TARGET}"'''
-              sh '''docker exec owasp zap-cli -v -p 2375 active-scan -c "${ZAP_TARGET}" --recursive "https://${ZAP_TARGET}"'''
+              sh ''' docker exec owasp zap-cli -v -p 8171 open-url "https://${ZAP_TARGET}" '''
+              sh ''' docker exec owasp zap-cli -v -p 8171 spider -c "${ZAP_TARGET}" "https://${ZAP_TARGET}"'''
+              sh '''docker exec owasp zap-cli -v -p 8171 active-scan -c "${ZAP_TARGET}" --recursive "https://${ZAP_TARGET}"'''
              }
 		   }
 		}
