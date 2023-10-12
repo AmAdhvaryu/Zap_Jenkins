@@ -94,8 +94,9 @@ pipeline {
 		stage('scanning'){
 		    steps{
 			    script {
-		sh """ docker exec owasp /home/zap/.local/bin/zap-cli -v -p 2375 context import /zap/wrk/default """	    
-		sh """ docker exec owasp zap-cli -v -p 2375 context info $ZAP_TARGET """
+		sh """ docker exec owasp /home/zap/.local/bin/zap-cli -v -p 2375 context import /zap/wrk/default """	
+				     echo "The context file is accessable"
+		sh """ docker exec owasp zap-cli -v -p 2375 context info https://qa2.criticalmention.com """
 				    echo "scanning the url"
               sh ''' docker exec owasp zap-cli -v -p 2375 open-url "https://${ZAP_TARGET}" '''
               sh ''' docker exec owasp zap-cli -v -p 2375 spider -c "${ZAP_TARGET}" "https://${ZAP_TARGET}"'''
