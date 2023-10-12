@@ -64,6 +64,7 @@ pipeline {
                      sh '''
                      docker exec owasp mkdir /zap/wrk
                      '''
+			sh "docker exec owasp mkdir -p /home/zap/.local/bin"
 			 echo "The directory is created"
                  }
              }
