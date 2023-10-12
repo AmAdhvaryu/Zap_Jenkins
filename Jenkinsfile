@@ -99,14 +99,6 @@ pipeline {
                 docker exec owasp zap-cli -v -p 2375 open-url "https://$ZAP_TARGET"
                 docker exec owasp zap-cli -v -p 2375 spider -c "$ZAP_TARGET" "https://$ZAP_TARGET"
                 docker exec owasp zap-cli -v -p 2375 active-scan -c "$ZAP_TARGET" --recursive "https://$ZAP_TARGET"
-				// # Generate report inside container
-            // docker exec owasp zap-cli -p 2375 report -o /home/zap/report.html -f html
-            // docker cp owasp:/home/zap/report.html ./results/
-            // docker exec owasp zap-cli -p 2375 report -o /home/zap/report.xml -f xml
-            // docker cp owasp:/home/zap/report.xml ./results/
-            
-            // # Fetch alerts JSON
-            // docker exec owasp zap-cli -p 2375 alerts --alert-level "Informational" -f json > ./results/report.json || true
 			   }
 		   }
 		}
