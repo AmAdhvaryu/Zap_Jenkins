@@ -107,15 +107,6 @@ pipeline {
             
             // # Fetch alerts JSON
             // docker exec owasp zap-cli -p 2375 alerts --alert-level "Informational" -f json > ./results/report.json || true
-            
-            // # Check for alerts
-            // ALERT_CNT=$(docker exec owasp zap-cli -p 2375 alerts --alert-level "$ZAP_ALERT_LVL" -f json | jq length)
-            
-            // # Mark Jenkins job as unstable if alerts were detected
-            // if [[ "$ALERT_CNT" -gt 0 ]]; then
-            //     echo "Vulnerabilities detected, Lvl=$ZAP_ALERT_LVL Alert count=$ALERT_CNT"
-            //     echo "Job is unstable..."
-            //     exit 1
 			   }
 		   }
 		}
