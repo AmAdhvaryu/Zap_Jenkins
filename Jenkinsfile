@@ -121,9 +121,7 @@ pipeline {
     post {
         always {
             echo "Cleaning up ZAP Docker container"
-            sh """
-                docker container rm -f owasp || true
-            """
+            sh 'docker container rm -f owasp || true'
         }
     }
 }
