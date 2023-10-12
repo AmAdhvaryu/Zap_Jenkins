@@ -5,9 +5,14 @@ def gitBranch = "origin/main"
 
 // Define a function for installing or upgrading zapcli
 def installOrUpgradeZapcli() {
-sh '''  npm install -g zap-cli '''
-	echo " zap-cli in installed"
+ def pipInstallCommand = 'pip install -U zapcli'
+    def exitCode = sh(script: pipInstallCommand, returnStatus: true)
 
+    if (exitCode == 0) {
+        echo 'zapcli installation or upgrade successful.'
+    } else {
+        error 'Failed to install or upgrade zapcli.'
+    }
 
 }
 
@@ -78,7 +83,7 @@ pipeline {
 		stage('scanning'){
 		    steps{
 			    script {
-		sh 'zap-cli -v -p 2375 context import /zap/wrk/default.context'
+		sh './.local/bin/zap-cli -v -p 2375 context import /zap/wrk/default.context'
                 docker exec owasp zap-cli -v -p 2375 context info $ZAP_TARGET
 				    echo "scanning the url"
                 docker exec owasp zap-cli -v -p 2375 open-url "https://$ZAP_TARGET"
