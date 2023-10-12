@@ -5,17 +5,21 @@ def gitBranch = "origin/main"
 
 // Define a function for installing or upgrading zapcli
 def installOrUpgradeZapcli() {
-    def pipInstallCommand = 'npm install -g zap-cli
+    //def pipInstallCommand = 'npm install -g zap-cli
 '
-    def exitCode = sh(script: pipInstallCommand, returnStatus: true)
+    //def exitCode = sh(script: pipInstallCommand, returnStatus: true)
 
-    if (exitCode == 0) {
-        echo 'zapcli installation or upgrade successful.'
-    } else {
+    //if (exitCode == 0) {
+       // echo 'zapcli installation or upgrade successful.'
+    //} else {
         error 'Failed to install or upgrade zapcli.'
-    }
-def zapCliPath = sh(script: 'which zap-cli', returnStatus: true).trim()
-echo "Full path to zap-cli: $zapCliPath"
+    //}
+//def zapCliPath = sh(script: 'which zap-cli', returnStatus: true).trim()
+//echo "Full path to zap-cli: $zapCliPath"
+	sh '''
+npm install -g zap-cli
+'''
+
 
 }
 
