@@ -72,8 +72,7 @@ pipeline {
 		steps{
 			script{
 				sh 'docker exec owasp pip install zapcli'
-				sh "docker exec -i owasp /bin/sh"
-				sh 'find / -name zap-cli'
+				 sh 'docker exec -i owasp find / -name zap-cli'
 
 			}
 		}
