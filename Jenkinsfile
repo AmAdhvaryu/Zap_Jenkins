@@ -94,7 +94,7 @@ pipeline {
 			    script {
 	        //sh './bin/zap-cli -p 2375 -v context import /zap/wrk/default'
 		sh """ docker exec owasp /home/zap/.local/bin/zap-cli -v -p 2375 context import /zap/wrk/default """	    
-		docker exec owasp zap-cli -v -p 2375 context info $ZAP_TARGET
+		sh """ docker exec owasp zap-cli -v -p 2375 context info $ZAP_TARGET""
 				    echo "scanning the url"
                 docker exec owasp zap-cli -v -p 2375 open-url "https://$ZAP_TARGET"
                 docker exec owasp zap-cli -v -p 2375 spider -c "$ZAP_TARGET" "https://$ZAP_TARGET"
