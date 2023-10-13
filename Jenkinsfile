@@ -39,7 +39,7 @@ pipeline {
 			    script {
 				 echo "Starting ZAP Docker container: owasp"
 				    
-				 def containerID = sh """docker run -d --name owasp -p 8171:8171 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
+				 def containerID = sh """docker run -d --name owasp -p 8171:8171 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 8171  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
 				echo "Docker container ID: ${containerID}"
 				    // Wait for a brief moment to allow the container to fully start
                           sleep(time: 30, unit: 'SECONDS')
