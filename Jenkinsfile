@@ -59,7 +59,7 @@ pipeline {
         steps{
             script{
                 //'docker exec owasp pip3 install zapcli'
-                 sh 'docker exec -i owasp sh -c "mkdir -p /home/zap/.local/bin"'
+                 sh 'docker exec -i owasp sh -c "mkdir -p /zap/.local/bin"'
                 sh 'docker exec -i owasp sh -c "pip3 install zapcli"'
             }
         }
@@ -81,7 +81,7 @@ pipeline {
                       def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
                                    echo "Docker container ID: ${containerID}"
- sh """ docker exec ${containerID} /home/zap/.local/bin zap-cli -v -p 8089 context import /zap/wrk/default """
+ sh """ docker exec ${containerID} /zap/.local/bin zap-cli -v -p 8089 context import /zap/wrk/default """
                  
 
                     echo "scanning the url"
