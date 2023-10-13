@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                 echo "Starting ZAP Docker container: owasp"
-                 sh """docker run -d --name owasp -p 5555:5555 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 5555  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
+                 sh """docker run -d --name owasp -p 8089:8089 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 8081  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
                  // Wait for a brief moment to allow the container to fully start
                           sleep(time: 30, unit: 'SECONDS')
                     
@@ -85,7 +85,7 @@ pipeline {
                  
 
                     echo "scanning the url"
-              sh """docker exec ${containerID} zap-cli -v -p 8171 scan https://${ZAP_TARGET}"""
+              sh """docker exec ${containerID} zap-cli -v -p 8081 scan https://${ZAP_TARGET}"""
              }
            }
         }
