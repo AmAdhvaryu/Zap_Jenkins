@@ -103,6 +103,7 @@ pipeline {
                     
                                    echo "Docker container ID: ${containerID}"
 		sh """ docker exec ${containerID} /home/zap/.local/bin/zap-cli -v -p 2375 context import /zap/wrk/default """
+				     sleep(time: 30, unit: 'SECONDS')
 
 				     echo "The context file is accessable"
 		sh """ docker exec owasp /home/zap/.local/bin/zap-cli -v -p 8171 context info https://qa2.criticalmention.com """
