@@ -75,7 +75,10 @@ pipeline {
 				//sh 'docker exec owasp pip install zapcli'
 				//sh "docker exec -it owasp /bin/sh -c pip install zapcli"
 				//sh "docker exec -w /home/zap/.local/bin owasp pip install zapcli"
-				docker exec -it owasp sh -c "mkdir -p /home/zap/.local/bin && pip install zapcli"
+			      sh 'docker exec -i owasp sh -c "mkdir -p /home/zap/.local/bin"'
+				sh 'docker exec -i owasp sh -c "pip install zapcli"'
+
+				//docker exec -it owasp sh -c "mkdir -p /home/zap/.local/bin && pip install zapcli"
 
 
 			}
