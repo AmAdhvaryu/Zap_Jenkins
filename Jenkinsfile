@@ -81,7 +81,6 @@ pipeline {
                       def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
                                    echo "Docker container ID: ${containerID}"
-                 sh """ docker exec ${containerID} find / -name zap-cli """
         sh """ docker exec ${containerID} /home/zap/.local/bin/zap-cli -v -p 8090 context import /zap/wrk/default """
                  
 
