@@ -97,7 +97,7 @@ pipeline {
 				      def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
                                    echo "Docker container ID: ${containerID}"
-		sh """docker exec ${containerID} /home/zap/.local/bin/zap-cli -v -p 8171 context import /zap/wrk/default"""
+		sh """docker exec ${containerID} zap-cli -v -p 8171 context import /zap/wrk/default"""
 
 				     echo "The context file is accessable"
 		sh """ docker exec owasp zap-cli -v -p 8171 context info https://qa2.criticalmention.com """
