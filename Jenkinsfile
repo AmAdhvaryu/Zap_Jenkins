@@ -74,7 +74,9 @@ pipeline {
 			script{
 				//sh 'docker exec owasp pip install zapcli'
 				//sh "docker exec -it owasp /bin/sh -c pip install zapcli"
-				sh "docker exec -w /home/zap/.local/bin owasp pip install zapcli"
+				//sh "docker exec -w /home/zap/.local/bin owasp pip install zapcli"
+				docker exec -it owasp sh -c "mkdir -p /home/zap/.local/bin && pip install zapcli"
+
 
 			}
 		}
@@ -97,7 +99,7 @@ pipeline {
 				      def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
                                    echo "Docker container ID: ${containerID}"
-		sh """docker exec ${containerID} zap-cli -v -p 8171 context import /zap/wrk/default"""
+		sh """ docker exec ${containerID} zap-cli -v -p 8171 context import /zap/wrk/default """
 
 				     echo "The context file is accessable"
 		sh """ docker exec owasp zap-cli -v -p 8171 context info https://qa2.criticalmention.com """
