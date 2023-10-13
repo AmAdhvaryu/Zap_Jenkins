@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                 echo "Starting ZAP Docker container: owasp"
-                 sh """docker run -d --name owasp -p 2375:2375 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
+                 sh """docker run -d --name owasp -p 8090:8090 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 8090  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
                  // Wait for a brief moment to allow the container to fully start
                           sleep(time: 30, unit: 'SECONDS')
                     
@@ -69,7 +69,6 @@ pipeline {
                 script {
                 
                   echo "Using ZAP context file for authentication"
-                 sh """ docker exec de2efa28c479 find / -name zap-cli """
                   sh """ docker cp contexts/default.context owasp:/zap/wrk/default """
             echo "The context file is copied"
               sh "docker exec owasp ls /zap/wrk/default"
@@ -82,7 +81,9 @@ pipeline {
                       def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
                                    echo "Docker container ID: ${containerID}"
-        sh """ docker exec ${containerID} /home/zap/.local/bin/zap-cli -v -p 2375 context import /zap/wrk/default """
+                 sh """ docker exec ${containerID} find / -name zap-cli """
+        sh """ docker exec ${containerID} /home/zap/.local/bin/zap-cli -v -p 8090 context import /zap/wrk/default """
+                 
 
                     echo "scanning the url"
               sh """docker exec ${containerID} zap-cli -v -p 8171 scan https://${ZAP_TARGET}"""
