@@ -69,6 +69,7 @@ pipeline {
                 script {
                 
                   echo "Using ZAP context file for authentication"
+                 sh """ docker exec de2efa28c479 find / -name zap-cli """
                   sh """ docker cp contexts/default.context owasp:/zap/wrk/default """
             echo "The context file is copied"
               sh "docker exec owasp ls /zap/wrk/default"
