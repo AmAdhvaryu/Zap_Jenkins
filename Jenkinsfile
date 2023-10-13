@@ -58,7 +58,9 @@ pipeline {
         stage('Install Zap-cli'){
         steps{
             script{
-                'docker exec owasp pip3 install zapcli'
+                //'docker exec owasp pip3 install zapcli'
+                 sh 'docker exec -i owasp sh -c "mkdir -p /home/zap/.local/bin"'
+                sh 'docker exec -i owasp sh -c "pip3 install zapcli"'
             }
         }
     }
