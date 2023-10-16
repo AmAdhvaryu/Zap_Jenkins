@@ -96,6 +96,7 @@ pipeline {
               //sh "docker exec owasp ls /zap/wrk/default"
               sh "docker cp contexts/cm.context owasp:/zap/wrk/cm.context "
                sh "docker cp contexts/default.context owasp:/zap/wrk/default.context "
+	       sh "docker cp CmAuthtwo.js owasp:/zap/wrk/CmAuthtwo.js "
 			 sh "docker exec owasp ls /zap/wrk "
                 }
             }
