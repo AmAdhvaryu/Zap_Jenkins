@@ -61,6 +61,8 @@ pipeline {
                           sh '''
                           docker logs owasp
                           '''
+			// Define the API key as an environment variable in this stage
+                    env.API_KEY = '12345'
         
                 }
             }
@@ -92,7 +94,7 @@ pipeline {
                   //sh """ docker cp contexts/default.context owasp:/zap/wrk/default """
             echo "The context file is copied"
               //sh "docker exec owasp ls /zap/wrk/default"
-              sh "docker cp contexts/cm.context owasp:/zap/wrk/cm.context "
+              //sh "docker cp contexts/cm.context owasp:/zap/wrk/cm.context "
                sh "docker cp contexts/default.context owasp:/zap/wrk/default.context "
 			 sh "docker exec owasp ls /zap/wrk "
                 }
@@ -104,7 +106,7 @@ pipeline {
                       def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
                                    echo "Docker container ID: ${containerID}"
- //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 --api-key 12345 context import /zap/wrk/cm.context """
+ //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 --api-key ${env.API_KEY} context import /zap/wrk/cm.context """
  //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 context info cm.context """
 sh """ docker exec owasp env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 --api-key 12345 context import /zap/wrk/cm.context """
                  
