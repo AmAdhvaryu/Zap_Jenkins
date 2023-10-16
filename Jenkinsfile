@@ -2,6 +2,7 @@
 def targets = ['https://qa2.criticalmention.com']
 def gitUrl = "https://github.com/AmAdhvaryu/Zap_Jenkins.git"
 def gitBranch = "origin/main"
+def gitCredId = 12345
 // Define a function for installing or upgrading zapcli
 def installOrUpgradeZapcli() {
  // def pipInstallCommand = 'pip3 install zapcli -t /var/lib/jenkins'
@@ -29,11 +30,30 @@ pipeline {
                 }
             }
         }
+     stage('checkout'){
+			steps{
+				script {
+                    currentBuild.displayName = env.BUILD_NUMBER + "_" + params.ZAP_TARGET + "--" + params.ZAP_ALERT_LVL
+					cleanWs()     
+				}
+                // checkout
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[
+                        name: gitBranch
+                    ]],
+                    userRemoteConfigs: [[
+                        credentialsId: gitCredId ,
+                        url: gitUrl
+                    ]]
+                ])
+			}
+		}
     stage('Running Docker Container'){
             steps {
                 script {
                 echo "Starting ZAP Docker container: owasp"
-                 sh """docker run -d --name owasp -p 8089:8089 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 8089  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
+                 sh """docker run -d --name owasp -p 2375:2375 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
                  // Wait for a brief moment to allow the container to fully start
                           sleep(time: 30, unit: 'SECONDS')
                     
@@ -72,6 +92,7 @@ pipeline {
                   sh """ docker cp contexts/default.context owasp:/zap/wrk/default """
             echo "The context file is copied"
               sh "docker exec owasp ls /zap/wrk/default"
+                 docker exec owasp zap-cli -v -p 2375 status -t 120
                 }
             }
         }
@@ -81,11 +102,11 @@ pipeline {
                       def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
                                    echo "Docker container ID: ${containerID}"
- sh """ docker exec ${containerID} /zap/.local/bin zap-cli -v -p 8089 context import /zap/wrk/default """
+ sh """ docker exec ${containerID} /zap/.local/bin zap-cli -v -p 2375 context import /zap/wrk/default """
                  
 
                     echo "scanning the url"
-              sh """docker exec ${containerID} zap-cli -v -p 8081 scan https://${ZAP_TARGET}"""
+              sh """docker exec ${containerID} zap-cli -v -p 2375 scan https://${ZAP_TARGET}"""
              }
            }
         }
