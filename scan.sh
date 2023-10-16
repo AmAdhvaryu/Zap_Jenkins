@@ -5,7 +5,7 @@ DEFAULT_DELAY_IN_MS="0"
 DEFAULT_MAX_SCAN_DURATION_IN_MINS="0"
 DEFAULT_THREADS_PER_HOST="2"
 DEFAULT_RECURSIVE="true"
-DEFAULT_CONTEXT_FOLDER="./zap-context"
+DEFAULT_CONTEXT_FOLDER="./zap/wrk/-context"
 DEFAULT_REPORT_FOLDER="./reports"
 DEFAULT_LOGFILE="${DEFAULT_REPORT_FOLDER}/scan.log"
 # ---------------------- no changes below ------------------- #
