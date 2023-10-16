@@ -110,7 +110,7 @@ pipeline {
               //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 scan https://${ZAP_TARGET} """
 	     //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 quick-scan --spider -s xss,sqlInjection https://qa2.criticalmention.com """
 			sh""" docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 open-url https://$ZAP_TARGET """
-                            docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 spider -c $ZAP_TARGET https://$ZAP_TARGET """
+                        sh"""    docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 spider -c $ZAP_TARGET https://$ZAP_TARGET """
 
 			
              }
