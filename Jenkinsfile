@@ -1,5 +1,5 @@
 // Define the target URLs and other parameters
-def targets = ['qa2.criticalmention.com']
+def targets = ['https://qa2.criticalmention.com']
 def gitUrl = "https://github.com/AmAdhvaryu/Zap_Jenkins.git"
 def gitBranch = "origin/main"
 def gitCredId = 'b2f48c51-212a-421f-bba6-f2305e159bd7'
