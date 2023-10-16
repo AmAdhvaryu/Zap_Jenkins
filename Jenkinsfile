@@ -94,7 +94,7 @@ pipeline {
                   //sh """ docker cp contexts/default.context owasp:/zap/wrk/default """
             echo "The context file is copied"
               //sh "docker exec owasp ls /zap/wrk/default"
-              //sh "docker cp contexts/cm.context owasp:/zap/wrk/cm.context "
+              sh "docker cp contexts/cm.context owasp:/zap/wrk/cm.context "
                sh "docker cp contexts/default.context owasp:/zap/wrk/default.context "
 			 sh "docker exec owasp ls /zap/wrk "
                 }
