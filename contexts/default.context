@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <configuration>
     <context>
-        <name>POST:session()(password,userAgent,username)</name>
+        <name>default</name>
         <desc/>
         <inscope>true</inscope>
-        <incregexes>https://qa2.criticalmention.com/*</incregexes>
+        <incregexes>.*</incregexes>
         <tech>
             <include>Db</include>
             <include>Db.CouchDB</include>
@@ -25,7 +25,6 @@
             <include>Language.C</include>
             <include>Language.JSP/Servlet</include>
             <include>Language.Java</include>
-            <include>Language.Java.Spring</include>
             <include>Language.JavaScript</include>
             <include>Language.PHP</include>
             <include>Language.Python</include>
@@ -52,22 +51,9 @@
             <config>{"kvps":"&amp;","kvs":"=","struct":[]}</config>
         </postparser>
         <authentication>
-            <type>4</type>
-            <strategy>EACH_REQ_RESP</strategy>
-            <pollurl/>
-            <polldata/>
-            <pollheaders/>
-            <pollfreq>60</pollfreq>
-            <pollunits>REQUESTS</pollunits>
-            <script>
-                <name>CmAuthtwo</name>
-                <params>RW5kcG9pbnRGb3JBdXRoZW50aWNhdGlvbg==:aHR0cHM6Ly9xYTIuY3JpdGljYWxtZW50aW9uLmNvbS9hbGxtZWRpYS9zZXNzaW9u</params>
-            </script>
+            <type>0</type>
         </authentication>
-        <users>
-            <user>831;true;VGVzdGVy;4;cGFzc3dvcmQ=:d2VsY29tZTEyMw==&amp;dXNlcm5hbWU=:dGVzdGVyMTQ=</user>
-        </users>
-        <forceduser>831</forceduser>
+        <forceduser>-1</forceduser>
         <session>
             <type>0</type>
         </session>
