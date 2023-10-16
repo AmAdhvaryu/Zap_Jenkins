@@ -2,7 +2,7 @@
 def targets = ['https://qa2.criticalmention.com']
 def gitUrl = "https://github.com/AmAdhvaryu/Zap_Jenkins.git"
 def gitBranch = "origin/main"
-def gitCredId = 'b2f48c51-212a-421f-bba6-f2305e159bd7'
+def gitCredId = '12345'
 // Define a function for installing or upgrading zapcli
 def installOrUpgradeZapcli() {
  // def pipInstallCommand = 'pip3 install zapcli -t /var/lib/jenkins'
@@ -106,7 +106,7 @@ pipeline {
                                    echo "Docker container ID: ${containerID}"
  //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 --api-key 12345 context import /zap/wrk/cm.context """
  //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 context info cm.context """
-sh """ docker exec owasp env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 context import /zap/wrk/cm.context """
+sh """ docker exec owasp env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 --api-key 12345 context import /zap/wrk/cm.context """
                  
 
                     echo "scanning the url"
