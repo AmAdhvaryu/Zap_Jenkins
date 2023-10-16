@@ -107,7 +107,7 @@ pipeline {
                       def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
                                    echo "Docker container ID: ${containerID}"
-    sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli script execute -f /zap/wrk/CmAuthtwo.js "
+    sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli scripts -f /zap/wrk/CmAuthtwo.js "
 
  sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 --api-key ${env.API_KEY} context import /zap/wrk/cm.context """
  //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 context info cm.context """
