@@ -1,5 +1,5 @@
 // Define the target URLs and other parameters
-def targets = ['https://qa2.criticalmention.com']
+def targets = ['qa2.criticalmention.com']
 def gitUrl = "https://github.com/AmAdhvaryu/Zap_Jenkins.git"
 def gitBranch = "origin/main"
 def gitCredId = 'b2f48c51-212a-421f-bba6-f2305e159bd7'
@@ -93,8 +93,8 @@ pipeline {
             echo "The context file is copied"
               //sh "docker exec owasp ls /zap/wrk/default"
               sh "docker cp contexts/cm.context owasp:/zap/wrk/cm.context "
-               sh "docker cp contexts/default.context owasp:/zap/wrk/default "
-			 sh "docker exec owasp ls /zap/wrk/default"
+               sh "docker cp contexts/default.context owasp:/zap/wrk/default.context "
+			 sh "docker exec owasp ls /zap/wrk "
                 }
             }
         }
