@@ -60,7 +60,7 @@
             <pollfreq>60</pollfreq>
             <pollunits>REQUESTS</pollunits>
             <script>
-                <name>/zap/wrk/CmAuthtwo.js</name>
+                <name>CmAuthtwo</name>
                 <params>RW5kcG9pbnRGb3JBdXRoZW50aWNhdGlvbg==:aHR0cHM6Ly9xYTIuY3JpdGljYWxtZW50aW9uLmNvbS9hbGxtZWRpYS9zZXNzaW9u</params>
             </script>
         </authentication>
