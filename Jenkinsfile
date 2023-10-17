@@ -116,9 +116,9 @@ pipeline {
                           sleep(time: 10, unit: 'SECONDS')
 			//sh "timeout 600 docker exec ${containerID} env PATH=\$PATH:/home/zap/.local/bin zap-cli start --start-options '-config api.key=12345'"
 
-			sh """
-                    docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 --api-key 12345 execute --script /zap/wrk/CmAuthtwo.js
-                    """
+			// sh """
+   //                  docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 --api-key 12345 execute --script /zap/wrk/CmAuthtwo.js
+   //                  """
 
 
 
