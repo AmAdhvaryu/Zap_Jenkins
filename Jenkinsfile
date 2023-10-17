@@ -97,10 +97,10 @@ pipeline {
                   //sh """ docker cp contexts/default.context owasp:/zap/wrk/default """
             echo "The context file is copied"
               //sh "docker exec owasp ls /zap/wrk/default"
-              sh "docker cp contexts/CmAuthtwo.context  ${containerID}":/zap/wrk/CmAuthtwo.context "
-               sh "docker cp contexts/default.context  ${containerID}":/zap/wrk/default.context "
-	       sh "docker cp CmAuthtwo.js  ${containerID}":/zap/wrk/CmAuthtwo.js "
-			 sh "docker exec  ${containerID}" ls /zap/wrk "
+              sh "docker cp contexts/CmAuthtwo.context  ${containerID}:/zap/wrk/CmAuthtwo.context "
+               sh "docker cp contexts/default.context  ${containerID}:/zap/wrk/default.context "
+	       sh "docker cp CmAuthtwo.js  ${containerID}:/zap/wrk/CmAuthtwo.js "
+			 sh "docker exec  ${containerID} ls /zap/wrk "
                 }
             }
         }
