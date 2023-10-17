@@ -107,7 +107,7 @@ pipeline {
                       def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
                                    echo "Docker container ID: ${containerID}"
-			 sh "docker exec restart ${containerID} "
+			 sh "docker restart ${containerID} "
 			echo "Docker is restarted"
 			 // Wait for a brief moment to allow the container to fully start
                           sleep(time: 10, unit: 'SECONDS')
