@@ -111,6 +111,8 @@ pipeline {
 			echo "Docker is restarted"
 			 // Wait for a brief moment to allow the container to fully start
                           sleep(time: 10, unit: 'SECONDS')
+			sh " docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli start --start-options '-config api.key=12345'
+
 			
     //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli script execute /zap/wrk/CmAuthtwo.js "
 
