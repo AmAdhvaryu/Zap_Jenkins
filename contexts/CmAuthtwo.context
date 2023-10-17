@@ -61,8 +61,9 @@
             <pollunits>REQUESTS</pollunits>
             <script>
                 <name>CmAuthtwo</name>
-                 <file>/zap/wrk/CmAuthtwo</file>
+                  <file>file="/zap/wrk/CmAuthtwo"</file>
                 <params>RW5kcG9pbnRGb3JBdXRoZW50aWNhdGlvbg==:aHR0cHM6Ly9xYTIuY3JpdGljYWxtZW50aW9uLmNvbS9hbGxtZWRpYS9zZXNzaW9u</params>
+            
             </script>
         </authentication>
         <users>
