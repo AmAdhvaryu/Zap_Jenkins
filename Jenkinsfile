@@ -89,24 +89,27 @@ pipeline {
         stage('Getting Zap file'){
             steps {
                 script {
+			 def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
+                    
+                                   echo "Docker container ID: ${containerID}"
                 
                   echo "Using ZAP context file for authentication"
                   //sh """ docker cp contexts/default.context owasp:/zap/wrk/default """
             echo "The context file is copied"
               //sh "docker exec owasp ls /zap/wrk/default"
-              sh "docker cp contexts/CmAuthtwo.context owasp:/zap/wrk/CmAuthtwo.context "
-               sh "docker cp contexts/default.context owasp:/zap/wrk/default.context "
-	       sh "docker cp CmAuthtwo.js owasp:/zap/wrk/CmAuthtwo.js "
-			 sh "docker exec owasp ls /zap/wrk "
+              sh "docker cp contexts/CmAuthtwo.context  ${containerID}":/zap/wrk/CmAuthtwo.context "
+               sh "docker cp contexts/default.context  ${containerID}":/zap/wrk/default.context "
+	       sh "docker cp CmAuthtwo.js  ${containerID}":/zap/wrk/CmAuthtwo.js "
+			 sh "docker exec  ${containerID}" ls /zap/wrk "
                 }
             }
         }
         stage('scanning'){
             steps{
                 script {
-                      def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
+                      // def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
-                                   echo "Docker container ID: ${containerID}"
+                      //              echo "Docker container ID: ${containerID}"
 			 //sh "docker restart ${containerID} "
 			//echo "Docker is restarted"
 			 // Wait for a brief moment to allow the container to fully start
