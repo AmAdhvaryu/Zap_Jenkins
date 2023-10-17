@@ -107,9 +107,9 @@ pipeline {
         stage('scanning'){
             steps{
                 script {
-                      // def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
+                       def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
-                      //              echo "Docker container ID: ${containerID}"
+                                    echo "Docker container ID: ${containerID}"
 			 //sh "docker restart ${containerID} "
 			//echo "Docker is restarted"
 			 // Wait for a brief moment to allow the container to fully start
