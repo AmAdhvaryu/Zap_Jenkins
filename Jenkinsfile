@@ -124,7 +124,17 @@ pipeline {
     //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli -v -cmd /zap/wrk/CmAuthtwo"
      //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli -p 2375 script.load /zap/wrk/CmAuthtwo.js "
      //sh "docker exec ${containerID} curl -X POST 0.0.0.0:2375/JSON/script/action/load --api-key 12345 -d 'scriptName=CmAuthtwo.js' -d 'scriptType=Zap' "
- sh " docker exec ${containerID} curl -X POST -H "api-key: 12345" -d "scriptName=CmAuthtwo.js" -d "scriptType=Zap" http://0.0.0.0:2375/JSON/script/action/load "
+ //sh " docker exec ${containerID} curl -X POST -H "api-key: 12345" -d "scriptName=CmAuthtwo.js" -d "scriptType=Zap" http://0.0.0.0:2375/JSON/script/action/load "
+
+def apiKey = "12345"
+def scriptName = "CmAuthtwo.js"
+def scriptType = "ECMAScript"
+
+def command = "curl -X POST -H 'api-key: ${apiKey}' -d 'scriptName=${scriptName}' -d 'scriptType=${scriptType}' http://0.0.0.0:2375/JSON/script/action/load"
+
+def result = command.execute().text
+println "Command result: ${result}"
+
 
 
 
