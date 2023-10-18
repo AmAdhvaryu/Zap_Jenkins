@@ -140,7 +140,7 @@ pipeline {
 
                     // Run the curl command inside the Docker container
                     //sh "docker exec -i${containerID} curl -X POST -H 'api-key: ${apiKey}' -d 'scriptName=${scriptName}' -d 'scriptType=${scriptType}' http://localhost:2375/JSON/script/action/load"
-                    sh "docker exec -i ${containerID} curl -X POST -H 'api-key: 12345' -d 'scriptName=${scriptName}' -d 'scriptType=${scriptType}' http://localhost:2375/JSON/script/action/load"
+                    sh "docker exec -i ${containerID} curl -X POST -H 'api-key: 12345' -d 'scriptName=${scriptName}' -d 'scriptType=${scriptType}' 0.0.0.0:2375/JSON/script/action/load"
 
 
 
