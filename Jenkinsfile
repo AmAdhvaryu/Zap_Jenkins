@@ -173,12 +173,15 @@ sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY}
 	     //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 quick-scan --spider -s xss,sqlInjection https://qa2.criticalmention.com """
 			//sh """ docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/amruta open-url $ZAP_TARGET """
                         // sh """  docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/amruta -quickurl $ZAP_TARGET """
-			//sh """ docker exec -d owasp zap.sh -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
-			sh """ docker exec -d owasp zap.sh -debug -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
+			sh """ docker exec -d owasp zap.sh -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
+			//sh """ docker exec -d owasp zap.sh -debug -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
 
 
-			//sh """ docker exec -d owasp zap.sh report -dir /zap/amruta -o -dir /zap/amruta/report.html -f html """
-                        //sh """ docker cp owasp:-dir /zap/amruta/report.html ./results/ """
+			// Generate the HTML report within the container
+sh "docker exec owasp zap.sh report -dir /zap/amruta -o /zap/amruta/report.html -f html"
+
+// Copy the HTML report from the container to the local "reports" folder
+sh "docker cp owasp:/zap/amruta/report.html ./reports/"
 
  
 			
