@@ -178,7 +178,7 @@ sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY}
 
 
 			// Generate the HTML report within the container
-sh "docker exec owasp zap.sh report -dir /zap/amruta -o /zap/amruta/report.html -f html"
+sh "docker exec -d owasp zap.sh report -dir /zap/amruta -o /zap/amruta/report.html -f html"
 
 // Copy the HTML report from the container to the local "reports" folder
 sh "docker cp owasp:/zap/amruta/report.html ./reports/"
