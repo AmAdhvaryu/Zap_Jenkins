@@ -54,6 +54,8 @@ pipeline {
                 script {
 			sh 'docker kill owasp'
 			 sh 'docker container rm owasp || true'
+			sh 'mkdir -p results/'
+
                 echo "Starting ZAP Docker container: owasp"
                  sh """docker run -d --name owasp -p 2375:2375 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
                  // Wait for a brief moment to allow the container to fully start
@@ -171,7 +173,10 @@ sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY}
 	     //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 quick-scan --spider -s xss,sqlInjection https://qa2.criticalmention.com """
 			//sh """ docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/amruta open-url $ZAP_TARGET """
                         // sh """  docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/amruta -quickurl $ZAP_TARGET """
-			sh """docker exec -d owasp zap.sh -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
+			sh """ docker exec -d owasp zap.sh -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
+
+			sh """ docker exec -d owasp zap.sh -p 2375  -dir /zap/amruta report -o /home/zap/report.html -f html """
+                        sh """ docker cp owasp:/home/zap/report.html ./results/ """
 
  
 			
