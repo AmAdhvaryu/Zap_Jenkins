@@ -59,10 +59,10 @@ pipeline {
                  // Wait for a brief moment to allow the container to fully start
                           sleep(time: 30, unit: 'SECONDS')
                     
-                          echo "Printing container logs:"
-                          sh '''
-                          docker logs owasp
-                          '''
+                          // echo "Printing container logs:"
+                          // sh '''
+                          // docker logs owasp
+                          // '''
 			// Define the API key as an environment variable in this stage
                     env.API_KEY = '12345'
         
@@ -151,8 +151,7 @@ pipeline {
     //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli script execute /zap/wrk/CmAuthtwo.js "
 			//sh "docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli --api-key ${env.API_KEY} import -context CmAuthtwo.context -scripts CmAuthtwo.js "
 
-  sh "docker exec owasp zap.sh -daemon -v -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context import /zap/wrk/CmAuthtwo.context"
-
+ sh "docker exec owasp zap.sh -daemon -v -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context import /zap/wrk/CmAuthtwo.context"
 			echo "import is complete"
 
 
