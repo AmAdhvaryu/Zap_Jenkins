@@ -168,7 +168,7 @@ sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY}
               //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 scan https://${ZAP_TARGET} """
 	     //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 quick-scan --spider -s xss,sqlInjection https://qa2.criticalmention.com """
 			sh """ docker exec owasp zap.sh -v -p 2375 open-url $ZAP_TARGET """
-                        sh"""    docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 spider -c $ZAP_TARGET $ZAP_TARGET """
+                        sh """  docker exec owasp zap.sh -v -p 2375 spider -c $ZAP_TARGET """
 
 			
              }
