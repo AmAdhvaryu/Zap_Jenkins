@@ -77,15 +77,15 @@ pipeline {
                  }
              }
         }
-        stage('Install Zap-cli'){
-          steps {
-            script {
+        //stage('Install Zap-cli'){
+          //steps {
+            //script {
                 //'docker exec owasp pip3 install zapcli'
                  //sh 'docker exec -i owasp sh -c "mkdir -p /zap/.local/bin"'
                //sh 'docker exec -i owasp sh -c "pip3 install zapcli"'
-            }
-        }
-    }
+            //}
+        //}
+   // }
         stage('Getting Zap file'){
             steps {
                 script {
