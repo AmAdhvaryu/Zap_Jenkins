@@ -52,6 +52,7 @@ pipeline {
     stage('Running Docker Container'){
             steps {
                 script {
+			 sh 'docker container rm -owasp || true'
                 echo "Starting ZAP Docker container: owasp"
                  sh """docker run -d --name owasp -p 2375:2375 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
                  // Wait for a brief moment to allow the container to fully start
@@ -89,27 +90,27 @@ pipeline {
         stage('Getting Zap file'){
             steps {
                 script {
-			 def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
+			 // def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
-                                   echo "Docker container ID: ${containerID}"
+    //                                echo "Docker container ID: ${containerID}"
                 
                   echo "Using ZAP context file for authentication"
                   //sh """ docker cp contexts/default.context owasp:/zap/wrk/default """
             echo "The context file is copied"
               //sh "docker exec owasp ls /zap/wrk/default"
-              sh "docker cp contexts/CmAuthtwo.context  ${containerID}:/zap/wrk/CmAuthtwo.context "
-               sh "docker cp contexts/default.context  ${containerID}:/zap/wrk/default.context "
-	       sh "docker cp CmAuthtwo.js  ${containerID}:/zap/wrk/CmAuthtwo.js "
-			 sh "docker exec  ${containerID} ls /zap/wrk "
+              sh "docker cp contexts/CmAuthtwo.context  owasp:/zap/wrk/CmAuthtwo.context "
+               sh "docker cp contexts/default.context  owasp:/zap/wrk/default.context "
+	       sh "docker cp CmAuthtwo.js owasp:/zap/wrk/CmAuthtwo.js "
+			 sh "docker exec owasp ls /zap/wrk "
                 }
             }
         }
         stage('scanning'){
             steps{
                 script {
-                       def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
+                       // def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
                     
-                                    echo "Docker container ID: ${containerID}"
+                       //              echo "Docker container ID: ${containerID}"
 			 //sh "docker restart ${containerID} "
 			//echo "Docker is restarted"
 			 // Wait for a brief moment to allow the container to fully start
@@ -149,7 +150,7 @@ pipeline {
     //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli script execute /zap/wrk/CmAuthtwo.js "
 			//sh "docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli --api-key ${env.API_KEY} import -context CmAuthtwo.context -scripts CmAuthtwo.js "
 
-  sh "docker exec ${containerID} zap.sh -v -p 2375 --api-key ${env.API_KEY} -dir /zap context import /zap/wrk/CmAuthtwo.context"
+  sh "docker execowasp zap.sh -v -p 2375 --api-key ${env.API_KEY} -dir /zap context import /zap/wrk/CmAuthtwo.context"
 
 			echo "import is complete"
 
@@ -194,7 +195,7 @@ pipeline {
                           '''
             echo "Cleaning up ZAP Docker container"
 		
-            sh 'docker container rm -f owasp || true'
+            sh 'docker container rm -owasp || true'
         }
     }
 }
