@@ -149,7 +149,8 @@ pipeline {
     //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli script execute /zap/wrk/CmAuthtwo.js "
 			//sh "docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli --api-key ${env.API_KEY} import -context CmAuthtwo.context -scripts CmAuthtwo.js "
 
-  sh "docker exec ${containerID} zap.sh  -v -p 2375 --api-key ${env.API_KEY} context import /zap/wrk/CmAuthtwo.context "
+  ssh "docker exec ${containerID} zap.sh -v -p 2375 --api-key ${env.API_KEY} context import /zap/wrk/CmAuthtwo.context"
+
 
  //sh " docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 --api-key ${env.API_KEY} import -context CmAuthtwo.context -script CmAuthtwo.script "
   //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 --api-key ${env.API_KEY} import /zap/wrk/CmAuthtwo """
