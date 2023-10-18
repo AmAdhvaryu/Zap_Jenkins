@@ -192,10 +192,8 @@ pipeline {
                           docker logs owasp
                           '''
             echo "Cleaning up ZAP Docker container"
-		def containerID = sh(script: 'docker ps -q -f name=owasp', returnStdout: true).trim()
-                    
-                                   echo "Docker container ID: ${containerID}"
-            sh 'docker container rm -f${containerID} || true'
+		
+            sh 'docker container rm -f ${containerID} || true'
         }
     }
 }
