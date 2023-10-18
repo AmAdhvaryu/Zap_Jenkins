@@ -61,7 +61,7 @@
             <pollunits>REQUESTS</pollunits>
            <script>
     <name>CmAuthtwo</name>
-     <file>/zap/wrk/CmAuthtwo.js</file>
+     <file>CmAuthtwo.js</file>
      <type>javascript</type>
       </script>
         </authentication>
