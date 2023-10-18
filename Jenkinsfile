@@ -149,7 +149,8 @@ pipeline {
     //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli script execute /zap/wrk/CmAuthtwo.js "
 			//sh "docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli --api-key ${env.API_KEY} import -context CmAuthtwo.context -scripts CmAuthtwo.js "
 
-  ssh "docker exec ${containerID} zap.sh -v -p 2375 --api-key ${env.API_KEY} context import /zap/wrk/CmAuthtwo.context"
+  sh "docker exec ${containerID} zap.sh -v -p 2375 --api-key ${env.API_KEY} context import /zap/wrk/CmAuthtwo.context"
+			echo "import is complete"
 
 
  //sh " docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 --api-key ${env.API_KEY} import -context CmAuthtwo.context -script CmAuthtwo.script "
@@ -162,7 +163,7 @@ pipeline {
                     echo "scanning the url"
               //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 scan https://${ZAP_TARGET} """
 	     //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 quick-scan --spider -s xss,sqlInjection https://qa2.criticalmention.com """
-			sh""" docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 open-url $ZAP_TARGET """
+			sh""" docker exec ${containerID} zap.sh -v -p 2375 open-url $ZAP_TARGET """
                         sh"""    docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 spider -c $ZAP_TARGET $ZAP_TARGET """
 
 			
