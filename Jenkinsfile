@@ -149,7 +149,8 @@ pipeline {
     //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli script execute /zap/wrk/CmAuthtwo.js "
 			//sh "docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli --api-key ${env.API_KEY} import -context CmAuthtwo.context -scripts CmAuthtwo.js "
 
-  sh "docker exec ${containerID} zap.sh -v -p 2375 --api-key ${env.API_KEY} context import /zap/wrk/CmAuthtwo.context"
+  sh "docker exec ${containerID} zap.sh -v -p 2375 --api-key ${env.API_KEY} -dir /zap context import /zap/wrk/CmAuthtwo.context"
+
 			echo "import is complete"
 
 
@@ -193,7 +194,7 @@ pipeline {
                           '''
             echo "Cleaning up ZAP Docker container"
 		
-            sh 'docker container rm -f ${containerID} || true'
+            sh 'docker container rm -f owasp || true'
         }
     }
 }
