@@ -176,7 +176,7 @@ sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY}
 			sh """ docker exec -d owasp zap.sh -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
 
 			sh """ docker exec -d owasp zap.sh -p 2375  -dir /zap/amruta report -o /home/zap/report.html -f html """
-                        sh """ docker cp owasp:/home/zap/report.html ./results/ """
+                        sh """ docker cp owasp:/zap/wrk/report.html ./results/ """
 
  
 			
