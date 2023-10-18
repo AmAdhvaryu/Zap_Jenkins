@@ -52,6 +52,7 @@ pipeline {
     stage('Running Docker Container'){
             steps {
                 script {
+			sh 'docker kill owasp'
 			 sh 'docker container rm owasp || true'
                 echo "Starting ZAP Docker container: owasp"
                  sh """docker run -d --name owasp -p 2375:2375 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
