@@ -123,7 +123,7 @@ pipeline {
 
     //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli -v -cmd /zap/wrk/CmAuthtwo"
      //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli -p 2375 script.load /zap/wrk/CmAuthtwo.js "
-     sh "docker exec ${containerID} curl -X POST 0.0.0.0:2375/JSON/script/action/load -d 'scriptName=CmAuthtwo.js' -d 'scriptType=Zap' "
+     //sh "docker exec ${containerID} curl -X POST 0.0.0.0:2375/JSON/script/action/load -d 'scriptName=CmAuthtwo.js' -d 'scriptType=Zap' "
 
 
 			
