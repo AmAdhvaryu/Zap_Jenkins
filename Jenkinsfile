@@ -126,7 +126,7 @@ pipeline {
      //sh "docker exec ${containerID} curl -X POST 0.0.0.0:2375/JSON/script/action/load --api-key 12345 -d 'scriptName=CmAuthtwo.js' -d 'scriptType=Zap' "
  //sh " docker exec ${containerID} curl -X POST -H "api-key: 12345" -d "scriptName=CmAuthtwo.js" -d "scriptType=Zap" http://0.0.0.0:2375/JSON/script/action/load "
 
- def apiKey = "12345"
+ //def apiKey = "12345"
                     //def scriptName = "CmAuthtwo.js"
                     //def scriptType = "Zap"
 
@@ -134,7 +134,7 @@ pipeline {
                     //def curlCommand = """curl -X POST -H 'api-key: ${apiKey}' -d 'scriptName=${scriptName}' -d 'scriptType=${scriptType}' http://0.0.0.0:2375/JSON/script/action/load"""
                     //def result = sh(script: curlCommand, returnStatus: true)
 		    //def containerName = 'your_docker_container_name'
-                    def apiKey = '12345'
+                    //def apiKey = '12345'
                     def scriptName = 'CmAuthtwo.js'
                     def scriptType = 'Zap'
 
