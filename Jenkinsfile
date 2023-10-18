@@ -57,7 +57,7 @@ pipeline {
                 echo "Starting ZAP Docker container: owasp"
                  sh """docker run -d --name owasp -p 2375:2375 -v /var/lib/jenkins:/var/lib/jenkins -w /var/lib/jenkins owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 2375  -config api.key=12345 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true """
                  // Wait for a brief moment to allow the container to fully start
-                          sleep(time: 10, unit: 'SECONDS')
+                          sleep(time: 30, unit: 'SECONDS')
                     
                           echo "Printing container logs:"
                           sh '''
@@ -73,7 +73,7 @@ pipeline {
              steps {
                  script {
                      sh '''
-                     docker exec owasp mkdir /zap/wrk;docker exec owasp mkdir /amruta
+                     docker exec owasp mkdir /zap/wrk;docker exec owasp mkdir  /zap/amruta
                      '''
              echo "The directory is created"
                  }
@@ -151,7 +151,7 @@ pipeline {
     //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli script execute /zap/wrk/CmAuthtwo.js "
 			//sh "docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli --api-key ${env.API_KEY} import -context CmAuthtwo.context -scripts CmAuthtwo.js "
 
-  sh "docker exec owasp zap.sh -v -p 2375 --api-key ${env.API_KEY} -dir /amruta context import /zap/wrk/CmAuthtwo.context"
+  sh "docker exec owasp zap.sh -v -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context import /zap/wrk/CmAuthtwo.context"
 
 			echo "import is complete"
 
@@ -196,7 +196,7 @@ pipeline {
                           '''
             echo "Cleaning up ZAP Docker container"
 		
-            sh 'docker container rm -owasp || true'
+            sh 'docker container rm owasp || true'
         }
     }
 }
