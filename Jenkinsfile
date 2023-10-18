@@ -99,7 +99,7 @@ pipeline {
               //sh "docker exec owasp ls /zap/wrk/default"
               sh "docker cp contexts/CmAuthtwo.context  ${containerID}:/zap/wrk/CmAuthtwo.context "
                sh "docker cp contexts/default.context  ${containerID}:/zap/wrk/default.context "
-	       sh "docker cp CmAuthtwo.js  ${containerID}:/zap/wrk/CmAuthtwo "
+	       sh "docker cp CmAuthtwo.js  ${containerID}:/zap/wrk/CmAuthtwo.js "
 			 sh "docker exec  ${containerID} ls /zap/wrk "
                 }
             }
@@ -122,7 +122,7 @@ pipeline {
 
 
     //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli -v -cmd /zap/wrk/CmAuthtwo"
-     sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli --add-addon $zapScript"
+     sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli --add-addon /zap/wrk/CmAuthtwo.js "
 			
     //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli script execute /zap/wrk/CmAuthtwo.js "
 			//sh "docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli --api-key ${env.API_KEY} import -context CmAuthtwo.context -scripts CmAuthtwo.js "
