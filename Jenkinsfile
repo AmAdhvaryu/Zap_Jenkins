@@ -160,7 +160,7 @@ pipeline {
 			//sh "docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli --api-key ${env.API_KEY} import -context CmAuthtwo.context -scripts CmAuthtwo.js "
 
 //sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} /zap/amruta/CmAuthtwo.context context import /zap/wrk/CmAuthtwo.context"
-sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key 12345 -importcontext /zap/wrk/CmAuthtwo.context -dir /zap/amruta/
+sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key 12345 -importcontext /zap/wrk/CmAuthtwo.context -dir /zap/amruta/ "
 
 //sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta/CmAuthtwo.context -importcontext /zap/wrk/CmAuthtwo.context"
 			//sleep time: 10, unit: 'SECONDS'			
