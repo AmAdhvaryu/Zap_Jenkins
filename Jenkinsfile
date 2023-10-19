@@ -173,7 +173,7 @@ sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key 12345 -importc
 
 
 			
- def contextInfo = sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} --context info CmAuthtwo.context"
+ def contextInfo = sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} --context info  -dir /zap/amruta/CmAuthtwo.context"
 
 
 
@@ -206,7 +206,7 @@ echo "import is complete"
  //sh """ docker exec -d owasp zap.sh -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context && docker exec -d owasp zap.sh report -dir /zap/amruta -o /zap/amruta/report.html -f html """
 			 //sh "docker exec owasp ls /zap/wrk "
 			sh"docker exec owasp ls /zap/amruta"
-			sh "docker exec owasp cat /zap/amruta/CmAuthtwo"
+			sh "docker exec owasp cat -dir /zap/amruta/CmAuthtwo.context"
 
 
 // Copy the HTML report from the container to the local "reports" folder
