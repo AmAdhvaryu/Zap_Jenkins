@@ -177,7 +177,7 @@ echo "import is complete"
 			sh """ docker exec -d owasp zap.sh -p 2375 --api-key ${env.API_KEY} -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
 
 
-			 sleep time: 150, unit: 'SECONDS'
+			 sleep time: 10, unit: 'SECONDS'
 			
 			//sh """ docker exec -d owasp zap.sh -debug -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
 
@@ -188,8 +188,8 @@ docker exec -d owasp zap.sh -p 2375 --api-key ${env.API_KEY} report -o /zap/amru
 """
 
  //sh """ docker exec -d owasp zap.sh -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context && docker exec -d owasp zap.sh report -dir /zap/amruta -o /zap/amruta/report.html -f html """
-			 sh "docker exec owasp ls /zap/wrk "
-			sh"docker exec owasp ls /zap/amruta"
+			 //sh "docker exec owasp ls /zap/wrk "
+			//sh"docker exec owasp ls /zap/amruta"
 
 
 // Copy the HTML report from the container to the local "reports" folder
