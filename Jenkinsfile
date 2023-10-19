@@ -107,7 +107,7 @@ pipeline {
                sh "docker cp contexts/default.context  owasp:/zap/wrk/default.context "
 	       sh "docker cp CmAuthtwo.js owasp:/zap/wrk/CmAuthtwo.js "
 			 //sh "docker exec owasp ls /zap/wrk "
-			sh "docker exec owasp cat /zap/wrk/CmAuthtwo.context"
+			//sh "docker exec owasp cat /zap/wrk/CmAuthtwo.context"
 
 			
 
@@ -200,6 +200,7 @@ echo "import is complete"
  //sh """ docker exec -d owasp zap.sh -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context && docker exec -d owasp zap.sh report -dir /zap/amruta -o /zap/amruta/report.html -f html """
 			 //sh "docker exec owasp ls /zap/wrk "
 			sh"docker exec owasp ls /zap/amruta"
+			sh "docker exec owasp cat /zap/amruta/CmAuthtwo.context"
 
 
 // Copy the HTML report from the container to the local "reports" folder
