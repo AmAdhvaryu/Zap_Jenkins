@@ -159,19 +159,19 @@ pipeline {
     //sh "docker exec ${containerID}  env PATH=$PATH:/home/zap/.local/bin zap-cli script execute /zap/wrk/CmAuthtwo.js "
 			//sh "docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli --api-key ${env.API_KEY} import -context CmAuthtwo.context -scripts CmAuthtwo.js "
 
-//sh "docker exec owasp zap.sh -daemon -v -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context import /zap/wrk/CmAuthtwo.context"
+sh "docker exec owasp zap.sh -daemon -v -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta/CmAuthtwo context import /zap/wrk/CmAuthtwo.context"
 //sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta/CmAuthtwo.context -importcontext /zap/wrk/CmAuthtwo.context"
 			//sleep time: 10, unit: 'SECONDS'			
 //sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context import /zap/wrk/default.context"
 // sh " docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/eirsha quick-scan -c https://qa2.criticalmention.com "
 //sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context import /zap/wrk/default.context"
  //sh "docker exec owasp cd /zap/wrk "
-sh " docker exec -d owasp zap.sh zap.sh -exportcontext /zap/wrk/CmAuthtwo.context -context /zap/amruta/CmAuthtwo.context"
+//sh " docker exec -d owasp zap.sh zap.sh -exportcontext /zap/wrk/CmAuthtwo.context -context /zap/amruta/CmAuthtwo.context"
 			
 
 
 			
- def contextInfo = sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -contextinfo /zap/amruta/CmAuthtwo.context"
+ def contextInfo = sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -contextinfo CmAuthtwo"
 
 
 
