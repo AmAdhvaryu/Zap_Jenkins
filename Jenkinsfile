@@ -166,7 +166,8 @@ sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY}
  
 
 			
- echo "$(sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -contextinfo /zap/amruta/CmAuthtwo.context")"
+ echo "$((sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key \${env.API_KEY} -contextinfo /zap/amruta/CmAuthtwo.context"))"
+
 
 			echo contextInfo
 
