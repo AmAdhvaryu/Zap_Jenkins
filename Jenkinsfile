@@ -196,7 +196,7 @@ docker exec -d owasp zap.sh -p 2375 --api-key ${env.API_KEY} report -o /zap/amru
 //sh "docker cp owasp:/zap/amruta/report.html ./reports/"
 
  sh  '''
-                    docker cp owasp:/zap/wrk/report.html ${WORKSPACE}/report.html
+                    docker cp owasp:/zap/amruta/report.html ${WORKSPACE}/report.html
                     '''
 
  
