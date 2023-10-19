@@ -175,7 +175,7 @@ echo "import is complete"
                         // sh """  docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/amruta -quickurl $ZAP_TARGET """
 			//sh """ docker exec -d owasp zap.sh -p 2375 --api-key ${env.API_KEY} -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
 sh """
-docker exec -i owasp zap.sh -p 2375 --api-key \${env.API_KEY} -cmd -username tester14 -password welcome123 -quickurl -dir /zap/amruta https://qa2.criticalmention.com -auth https://qa2.criticalmention.com -active-scan -contextname CmAuthtwo.context -recursive
+docker exec -i owasp zap.sh -p 2375 --api-key ${env.API_KEY} -cmd -username tester14 -password welcome123 -quickurl -dir /zap/amruta https://qa2.criticalmention.com -auth https://qa2.criticalmention.com -active-scan -contextname CmAuthtwo.context -recursive
 """
 
 			 sleep time: 150, unit: 'SECONDS'
