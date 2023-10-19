@@ -21,6 +21,7 @@ pipeline {
         booleanParam(name: 'ZAP_USE_CONTEXT_FILE', defaultValue: true, description: 'Use ZAP context file for authentication')
         string(name: 'DELAY_IN_MS', defaultValue: '0', description: 'Delay between requests during scanning (milliseconds)')
         string(name: 'MAX_SCAN_DURATION_IN_MINS', defaultValue: '300', description: 'Maximum scan duration in minutes')
+        booleanParam((name: 'GENERATE_REPORT', defaultValue: true, description: 'Parameter to know if you want to generate a report.'))
     }
     stages {
         stage('Install or Upgrade zapcli') {
@@ -173,8 +174,7 @@ echo "import is complete"
 	     //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 quick-scan --spider -s xss,sqlInjection https://qa2.criticalmention.com """
 			//sh """ docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/amruta open-url $ZAP_TARGET """
                         // sh """  docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/amruta -quickurl $ZAP_TARGET """
-			//sh """ docker exec -d owasp zap.sh -p 2375 --api-key ${env.API_KEY} -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
-sh """docker exec -i -e API_KEY=12345 owasp zap.sh -cmd -username tester14 -password welcome123 -quickurl -dir /zap/amruta https://qa2.criticalmention.com -auth https://qa2.criticalmention.com -active-scan -contextname CmAuthtwo.context -recursive """
+			sh """ docker exec -d owasp zap.sh -p 2375 --api-key ${env.API_KEY} -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
 
 
 			 sleep time: 150, unit: 'SECONDS'
@@ -183,14 +183,21 @@ sh """docker exec -i -e API_KEY=12345 owasp zap.sh -cmd -username tester14 -pass
 
 
 			// Generate the HTML report within the container
-sh "docker exec -d owasp zap.sh -p 2375 --api-key ${env.API_KEY} report -o /zap/amruta/report.html -f html"
+sh """
+docker exec -d owasp zap.sh -p 2375 --api-key \${env.API_KEY} report -o /zap/amruta/report.html -f html -htmlreport /zap/amruta/report.html
+"""
+
  //sh """ docker exec -d owasp zap.sh -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context && docker exec -d owasp zap.sh report -dir /zap/amruta -o /zap/amruta/report.html -f html """
 			 sh "docker exec owasp ls /zap/wrk "
 			sh"docker exec owasp ls /zap/amruta"
 
 
 // Copy the HTML report from the container to the local "reports" folder
-sh "docker cp owasp:/zap/amruta/report.html ./reports/"
+//sh "docker cp owasp:/zap/amruta/report.html ./reports/"
+
+ sh  '''
+                    docker cp owasp:/zap/wrk/report.html ${WORKSPACE}/report.html
+                    '''
 
  
 			
