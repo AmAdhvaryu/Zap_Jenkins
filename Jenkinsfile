@@ -108,7 +108,7 @@ pipeline {
 	       sh "docker cp CmAuthtwo.js owasp:/zap/wrk/CmAuthtwo.js "
 			 //sh "docker exec owasp ls /zap/wrk "
 			sh "docker exec owasp cat /zap/wrk/CmAuthtwo.context"
-'"
+
 			
 
                 }
