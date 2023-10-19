@@ -52,8 +52,8 @@ pipeline {
     stage('Running Docker Container'){
             steps {
                 script {
-			sh 'docker kill owasp'
-			 sh 'docker container rm owasp || true'
+			// sh 'docker kill owasp'
+			//  sh 'docker container rm owasp || true'
 			sh 'mkdir -p results/'
 
                 echo "Starting ZAP Docker container: owasp"
