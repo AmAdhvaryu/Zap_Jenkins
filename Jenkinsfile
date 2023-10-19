@@ -76,9 +76,10 @@ pipeline {
              steps {
                  script {
                      sh '''
-                     docker exec owasp mkdir /zap/wrk;docker exec owasp mkdir  /zap/amruta;docker exec owasp mkdir  /zap/eirsha
+                     docker exec owasp mkdir /zap/wrk; docker exec owasp mkdir /zap/amruta; docker exec owasp mkdir  /zap/eirsha
                      '''
              echo "The directory is created"
+			 sh "docker exec owasp ls "
                  }
              }
         }
@@ -180,8 +181,6 @@ echo "import is complete"
 			 sleep time: 10, unit: 'SECONDS'
 			
 			//sh """ docker exec -d owasp zap.sh -debug -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
-
-
 			// Generate the HTML report within the container
 sh """
 docker exec -d owasp zap.sh -p 2375 --api-key ${env.API_KEY} report -o /zap/amruta/report.html -f html -htmlreport /zap/amruta/report.html
