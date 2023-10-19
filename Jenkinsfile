@@ -166,8 +166,8 @@ sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY}
  
 
 			
- def contextInfo = sh(script: "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -contextinfo /zap/amruta/CmAuthtwo.context", returnStatus: true, returnStdout: true).trim()
-echo "Context Info: ${contextInfo}"
+ def contextInfo = sh(script: "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -contextinfo /zap/amruta/CmAuthtwo.context", returnStatus: true, returnStdout: true)
+			echo "Context Info: ${contextInfo}"
 
 
 
