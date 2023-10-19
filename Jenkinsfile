@@ -106,7 +106,10 @@ pipeline {
               sh "docker cp contexts/CmAuthtwo.context  owasp:/zap/wrk/CmAuthtwo.context "
                sh "docker cp contexts/default.context  owasp:/zap/wrk/default.context "
 	       sh "docker cp CmAuthtwo.js owasp:/zap/wrk/CmAuthtwo.js "
-			 sh "docker exec owasp ls /zap/wrk "
+			 //sh "docker exec owasp ls /zap/wrk "
+			sh " docker owasp cd /zap/wrk/"
+			sh " cat CmAuthtwo.context "
+
                 }
             }
         }
