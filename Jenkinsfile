@@ -178,7 +178,7 @@ echo "import is complete"
 
 
 			// Generate the HTML report within the container
-sh "docker exec -d owasp zap.sh -p 2375 --api-key ${env.API_KEY} report -dir /zap/amruta -o /zap/amruta/report.html -f html"
+sh "docker exec -d owasp zap.sh -p 2375 --api-key ${env.API_KEY} report -o /zap/amruta/report.html -f html"
  //sh """ docker exec -d owasp zap.sh -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context && docker exec -d owasp zap.sh report -dir /zap/amruta -o /zap/amruta/report.html -f html """
 			 sh "docker exec owasp ls /zap/wrk "
 			sh"docker exec owasp ls /zap/amruta"
