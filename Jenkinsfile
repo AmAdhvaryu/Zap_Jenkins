@@ -164,22 +164,11 @@ pipeline {
 			//sleep time: 10, unit: 'SECONDS'			
 //sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context import /zap/wrk/default.context"
 // sh " docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/eirsha quick-scan -c https://qa2.criticalmention.com "
+//sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context import /zap/wrk/default.context"
+ sh "docker exec owasp cd /zap/wrk "
+sh " docker exec -d owasp zap.sh zap.sh -exportcontext /zap/Amruta/CmAuthtwo.context -context "MyContext""
+			
 
-			  def sourceContextFile = "/zap/wrk/CmAuthtwo.context"
-                    def destinationDirectory = "/zap/amruta/"
-
-                    // Construct the zap.sh command to import the context into the destination directory
-                    def zapCommand = "docker exec -d owasp zap.sh -importcontext $sourceContextFile -dir $destinationDirectory"
-
-                    // Execute the zap.sh command to import the context
-                    def result = sh(script: zapCommand, returnStatus: true)
-                    
-                    if (result == 0) {
-                        echo "Context file imported successfully into $destinationDirectory"
-                    } else {
-                        error "Failed to import the context file"
-                    }
- 
 
 			
  def contextInfo = sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -contextinfo /zap/amruta/CmAuthtwo.context"
