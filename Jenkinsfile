@@ -160,9 +160,11 @@ pipeline {
 			//sh "docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli --api-key ${env.API_KEY} import -context CmAuthtwo.context -scripts CmAuthtwo.js "
 
 //sh "docker exec owasp zap.sh -daemon -v -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context import /zap/wrk/CmAuthtwo.context"
-sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} context import /zap/wrk/CmAuthtwo.context"
+//sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} context import /zap/wrk/CmAuthtwo.context"
 //sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context import /zap/wrk/default.context"
 // sh " docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/eirsha quick-scan -c https://qa2.criticalmention.com "
+ 
+
 			
 def contextInfo = sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context info CmAuthtwo.context "
 			echo contextInfo
@@ -180,8 +182,8 @@ echo "import is complete"
 	     //sh """ docker exec ${containerID} env PATH=$PATH:/home/zap/.local/bin zap-cli -v -p 2375 quick-scan --spider -s xss,sqlInjection https://qa2.criticalmention.com """
 			//sh """ docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/amruta open-url $ZAP_TARGET """
                         // sh """  docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/amruta -quickurl $ZAP_TARGET """
-			sh """ docker exec -d owasp zap.sh -p 2375 --api-key ${env.API_KEY} -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
-
+			//sh """ docker exec -d owasp zap.sh -p 2375 --api-key ${env.API_KEY} -quickurl -dir /zap/amruta https://qa2.criticalmention.com -context CmAuthtwo.context """
+  sh " docker exec owasp zap.sh -importcontext /zap/wrk/CmAuthtwo.context -quickurl https://qa2.criticalmention.com" 
 
 			 sleep time: 10, unit: 'SECONDS'
 			
