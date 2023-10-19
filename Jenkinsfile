@@ -21,7 +21,7 @@ pipeline {
         booleanParam(name: 'ZAP_USE_CONTEXT_FILE', defaultValue: true, description: 'Use ZAP context file for authentication')
         string(name: 'DELAY_IN_MS', defaultValue: '0', description: 'Delay between requests during scanning (milliseconds)')
         string(name: 'MAX_SCAN_DURATION_IN_MINS', defaultValue: '300', description: 'Maximum scan duration in minutes')
-        booleanParam((name: 'GENERATE_REPORT', defaultValue: true, description: 'Parameter to know if you want to generate a report.'))
+        booleanParam(name: 'GENERATE_REPORT', defaultValue: true, description: 'Parameter to know if you want to generate a report.')
     }
     stages {
         stage('Install or Upgrade zapcli') {
