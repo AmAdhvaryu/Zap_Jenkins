@@ -215,7 +215,10 @@ sh "docker cp owasp:/zap/amruta/report.html ./reports/"
                           '''
             echo "Cleaning up ZAP Docker container"
 		
-            sh 'docker container rm owasp || true'
+            sh("""
+                #!/bin/bash -eux
+                docker container rm -f owasp || true
+            """)
         }
     }
 }
