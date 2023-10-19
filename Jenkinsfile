@@ -79,7 +79,7 @@ pipeline {
                      docker exec owasp mkdir /zap/wrk; docker exec owasp mkdir /zap/amruta; docker exec owasp mkdir  /zap/eirsha
                      '''
              echo "The directory is created"
-			 sh "docker exec owasp ls /zap "
+			 //sh "docker exec owasp ls /zap "
                  }
              }
         }
@@ -107,7 +107,8 @@ pipeline {
                sh "docker cp contexts/default.context  owasp:/zap/wrk/default.context "
 	       sh "docker cp CmAuthtwo.js owasp:/zap/wrk/CmAuthtwo.js "
 			 //sh "docker exec owasp ls /zap/wrk "
-			sh "docker exec -it owasp /bin/bash -c 'cd /zap/wrk && cat CmAuthtwo.context'"
+			sh "docker exec owasp cat /zap/wrk/CmAuthtwo.context"
+'"
 			
 
                 }
