@@ -79,7 +79,7 @@ pipeline {
                      docker exec owasp mkdir /zap/wrk; docker exec owasp mkdir /zap/amruta; docker exec owasp mkdir  /zap/eirsha
                      '''
              echo "The directory is created"
-			 sh "docker exec owasp ls -l "
+			 sh "docker exec owasp /zap ls /zap "
                  }
              }
         }
