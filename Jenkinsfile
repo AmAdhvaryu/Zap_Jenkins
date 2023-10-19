@@ -161,6 +161,7 @@ pipeline {
 
 //sh "docker exec owasp zap.sh -daemon -v -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context import /zap/wrk/CmAuthtwo.context"
 sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta/CmAuthtwo.context -importcontext /zap/wrk/CmAuthtwo.context"
+  sleep time: 10, unit: 'SECONDS'			
 //sh "docker exec -d owasp zap.sh -verbosity INFO -p 2375 --api-key ${env.API_KEY} -dir /zap/amruta context import /zap/wrk/default.context"
 // sh " docker exec owasp zap.sh -v -p 2375 --api-key 12345 -dir /zap/eirsha quick-scan -c https://qa2.criticalmention.com "
  
